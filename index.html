@@ -1,63 +1,213 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Submit Message (JSONP)</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Submit Your Message</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+    /* Basic reset and box-sizing */
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #1E1E2F 0%, #3B185F 50%, #AC255E 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        color: #fff;
+    }
+
+    /* Container with a glassmorphism style */
+    .container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        width: 90%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.2);
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    /* Animated heading with neon glow */
+    h1 {
+        font-weight: 600;
+        font-size: 1.8rem;
+        text-align: center;
+        position: relative;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #AC255E, 0 0 40px #AC255E, 0 0 70px #AC255E, 0 0 80px #AC255E;
+        animation: glow 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes glow {
+      0% {text-shadow: 0 0 10px #AC255E;}
+      100% {text-shadow: 0 0 20px #AC255E, 0 0 40px #AC255E;}
+    }
+
+    /* Input field styling with glow on focus */
+    #messageInput {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #fff;
+        background: rgba(255,255,255,0.2);
+        outline: none;
+        transition: box-shadow 0.3s ease;
+    }
+
+    #messageInput::placeholder {
+        color: #ccc;
+    }
+
+    #messageInput:focus {
+        box-shadow: 0 0 10px #AC255E, 0 0 20px #AC255E;
+    }
+
+    /* Submit button with hover and click animations */
+    #submitBtn {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        color: #fff;
+        background: linear-gradient(45deg, #AC255E, #3B185F);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #submitBtn:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 5px 15px rgba(172,37,94,0.5);
+    }
+
+    #submitBtn:active {
+        transform: scale(0.98);
+    }
+
+    /* Ripple effect on hover */
+    #submitBtn::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 0; height: 0;
+        background: rgba(255,255,255,0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        opacity: 0;
+        transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    }
+
+    #submitBtn:hover::before {
+        width: 200%; 
+        height: 200%; 
+        opacity: 0.1; 
+    }
+
+    /* Feedback message styling */
+    #feedback {
+        font-size: 0.9rem;
+        text-align: center;
+        min-height: 1.5em;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.4rem;
+        }
+
+        #messageInput, #submitBtn {
+            font-size: 0.9rem;
+        }
+    }
+</style>
 </head>
 <body>
 
-<h1>Submit Your Message</h1>
-<input type="text" id="messageInput" placeholder="Enter text (10-250 chars)">
-<button id="submitBtn">Submit</button>
-<div id="feedback"></div>
+<div class="container">
+    <h1>Submit Your Message</h1>
+    <input type="text" id="messageInput" placeholder="Enter text (10-250 chars)"/>
+    <div id="feedback"></div>
+    <button id="submitBtn">Submit</button>
+</div>
 
 <script>
-// Callback function to handle the JSONP response
-function handleResponse(data) {
-  const feedback = document.getElementById('feedback');
-  if (data.status === 'success') {
-    feedback.style.color = 'green';
-    feedback.textContent = "Success! Your UID: " + data.uid;
-  } else {
-    feedback.style.color = 'red';
-    feedback.textContent = "Error occurred.";
-  }
-}
+    // Callback function for JSONP
+    function handleResponse(data) {
+        const feedback = document.getElementById('feedback');
+        const submitBtn = document.getElementById('submitBtn');
 
-// Triggered when user clicks Submit
-document.getElementById('submitBtn').addEventListener('click', function() {
-  const messageInput = document.getElementById('messageInput');
-  const feedback = document.getElementById('feedback');
-  const userText = messageInput.value.trim();
+        submitBtn.disabled = false;
 
-  // Validate input length
-  if (userText.length < 10) {
-    feedback.style.color = 'red';
-    feedback.textContent = "Your entry is too short!";
-    return;
-  }
-  if (userText.length > 250) {
-    feedback.style.color = 'red';
-    feedback.textContent = "Your entry is too long!";
-    return;
-  }
+        if (data.status === 'success') {
+            feedback.style.color = '#00FFAA';
+            feedback.textContent = "Success! Your UID: " + data.uid;
+            document.getElementById('messageInput').value = '';
+        } else {
+            feedback.style.color = 'red';
+            feedback.textContent = "Error occurred.";
+        }
+    }
 
-  feedback.textContent = "Submitting...";
+    const messageInput = document.getElementById('messageInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('feedback');
 
-  // Dynamically create a script tag for JSONP
-  const script = document.createElement('script');
-  // Replace with your actual Web App URL
-  const endpointURL = "https://script.google.com/macros/s/AKfycbyeWFWR0kiQoK1rX5CkbG9uxKUWO_MsXIVr9viFbVGXFq5Idm-t5cYlyYlEzbcNLTwPTQ/exec";
+    // Replace with your actual Web App URL
+    const endpointURL = "https://script.google.com/macros/s/AKfycbyeWFWR0kiQoK1rX5CkbG9uxKUWO_MsXIVr9viFbVGXFq5Idm-t5cYlyYlEzbcNLTwPTQ/exec";
 
-  // Append parameters including callback and text
-  script.src = endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText);
-  
-  // Append script to document to initiate the request
-  document.body.appendChild(script);
+    submitBtn.addEventListener('click', () => {
+        const userText = messageInput.value.trim();
 
-  // After loading, script will call `handleResponse(data)`
-});
+        if (userText.length < 10) {
+            feedback.style.color = 'red';
+            feedback.textContent = "Your entry is too short! Min 10 chars.";
+            return;
+        }
+
+        if (userText.length > 250) {
+            feedback.style.color = 'red';
+            feedback.textContent = "Your entry is too long! Max 250 chars.";
+            return;
+        }
+
+        feedback.style.color = '#fff';
+        feedback.textContent = "Submitting...";
+        submitBtn.disabled = true;
+
+        // Create a script tag for JSONP
+        const script = document.createElement('script');
+        script.src = endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText);
+        document.body.appendChild(script);
+    });
 </script>
-
 </body>
 </html>
