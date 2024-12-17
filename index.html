@@ -274,17 +274,22 @@
      *          FUNCTIONS
      *************************************/
     function handleResponse(data) {
-        submitBtn.disabled = false;
-        messageInput.disabled = false;
+    submitBtn.disabled = false;
+    messageInput.disabled = false;
+
+    if (data.status === "success") {
         feedback.style.color = '#00FFAA';
         feedback.textContent = CONFIG.successMessage;
-        
-        // Clear the textarea
         messageInput.value = '';
         updateCharCounter();
-        
         startCooldown();
+    } else {
+        // Server reported an error
+        feedback.style.color = 'red';
+        feedback.textContent = data.error || "Server error.";
     }
+}
+
 
     function submitMessage() {
         if (isCoolingDown) {
