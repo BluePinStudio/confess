@@ -1,130 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Submit Your Message</title>
-<style>
-    body, html {
-        margin: 0;
-        padding: 0;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        background: #f0f0f0;
-        color: #333;
-        height: 100%;
-    }
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .container {
-        background: #fff;
-        width: 90%;
-        max-width: 400px;
-        padding: 2rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        box-sizing: border-box;
-    }
-    h1 {
-        font-size: 1.5rem;
-        margin: 0 0 1rem 0;
-        text-align: center;
-        color: #444;
-    }
-    .input-field {
-        width: 100%;
-        padding: 0.75rem;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        font-size: 1rem;
-    }
-    .input-field:focus {
-        border-color: #007BFF;
-        box-shadow: 0 0 5px rgba(0,123,255,0.5);
-    }
-    .submit-btn {
-        padding: 0.75rem;
-        font-size: 1rem;
-        color: #fff;
-        background: linear-gradient(45deg, #007BFF, #00D4FF);
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    .feedback {
-        font-size: 0.9rem;
-        text-align: center;
-        min-height: 1.5em;
-    }
-</style>
+<meta charset="UTF-8">
+<title>Submit Message (JSONP)</title>
 </head>
 <body>
-<div class="container">
-    <h1>Submit Your Message</h1>
-    <input type="text" id="messageInput" class="input-field" placeholder="Enter your text (10-250 chars)"/>
-    <div id="feedback" class="feedback"></div>
-    <button id="submitBtn" class="submit-btn">Submit</button>
-</div>
+
+<h1>Submit Your Message</h1>
+<input type="text" id="messageInput" placeholder="Enter text (10-250 chars)">
+<button id="submitBtn">Submit</button>
+<div id="feedback"></div>
+
 <script>
-    const messageInput = document.getElementById('messageInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const feedback = document.getElementById('feedback');
+// Callback function to handle the JSONP response
+function handleResponse(data) {
+  const feedback = document.getElementById('feedback');
+  if (data.status === 'success') {
+    feedback.style.color = 'green';
+    feedback.textContent = "Success! Your UID: " + data.uid;
+  } else {
+    feedback.style.color = 'red';
+    feedback.textContent = "Error occurred.";
+  }
+}
 
-    const endpointURL = "https://script.google.com/macros/s/AKfycbzzAOExOmJwktWLREDq4FkdbI5ER9D73tydEXhIMfsbYXketI9bpSpkDjjIPZBEAdJoKA/exec"; // e.g. https://script.google.com/macros/s/AKfycb.../exec
+// Triggered when user clicks Submit
+document.getElementById('submitBtn').addEventListener('click', function() {
+  const messageInput = document.getElementById('messageInput');
+  const feedback = document.getElementById('feedback');
+  const userText = messageInput.value.trim();
 
-    submitBtn.addEventListener('click', handleSubmit);
+  // Validate input length
+  if (userText.length < 10) {
+    feedback.style.color = 'red';
+    feedback.textContent = "Your entry is too short!";
+    return;
+  }
+  if (userText.length > 250) {
+    feedback.style.color = 'red';
+    feedback.textContent = "Your entry is too long!";
+    return;
+  }
 
-    function handleSubmit() {
-        const userText = messageInput.value.trim();
+  feedback.textContent = "Submitting...";
 
-        if (userText.length < 10) {
-            feedback.style.color = 'red';
-            feedback.textContent = "Your entry is too short. Min 10 chars.";
-            return;
-        }
-        if (userText.length > 250) {
-            feedback.style.color = 'red';
-            feedback.textContent = "Your entry is too long. Max 250 chars.";
-            return;
-        }
+  // Dynamically create a script tag for JSONP
+  const script = document.createElement('script');
+  // Replace with your actual Web App URL
+  const endpointURL = "https://script.google.com/macros/s/AKfycbyeWFWR0kiQoK1rX5CkbG9uxKUWO_MsXIVr9viFbVGXFq5Idm-t5cYlyYlEzbcNLTwPTQ/exec";
 
-        submitBtn.disabled = true;
-        feedback.textContent = "Submitting...";
+  // Append parameters including callback and text
+  script.src = endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText);
+  
+  // Append script to document to initiate the request
+  document.body.appendChild(script);
 
-        // Using URL-encoded form data, which should avoid preflight
-        const bodyData = "text=" + encodeURIComponent(userText);
-
-        fetch(endpointURL, {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: bodyData
-        })
-        .then(response => response.json())
-        .then(data => {
-            submitBtn.disabled = false;
-            if (data.status === "success") {
-                feedback.style.color = 'green';
-                feedback.textContent = `Success! Your UID: ${data.uid}`;
-                messageInput.value = '';
-            } else {
-                feedback.style.color = 'red';
-                feedback.textContent = "Error occurred. Please try again.";
-            }
-        })
-        .catch(err => {
-            submitBtn.disabled = false;
-            feedback.style.color = 'red';
-            feedback.textContent = "Network error. Check console.";
-            console.error('Error submitting data:', err);
-        });
-    }
+  // After loading, script will call `handleResponse(data)`
+});
 </script>
+
 </body>
 </html>
