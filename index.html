@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-    /* Basic reset and box-sizing */
     *, *::before, *::after {
         box-sizing: border-box;
         margin: 0;
@@ -28,7 +27,6 @@
         color: #fff;
     }
 
-    /* Container with a glassmorphism style */
     .container {
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
@@ -39,7 +37,7 @@
         max-width: 400px;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
         box-shadow: 0 0 30px rgba(0,0,0,0.2);
         border: 1px solid rgba(255,255,255,0.2);
         animation: fadeIn 1s ease;
@@ -50,13 +48,11 @@
       to {opacity: 1; transform: scale(1);}
     }
 
-    /* Animated heading with neon glow */
     h1 {
         font-weight: 600;
         font-size: 1.8rem;
         text-align: center;
-        position: relative;
-        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #AC255E, 0 0 40px #AC255E, 0 0 70px #AC255E, 0 0 80px #AC255E;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #AC255E, 0 0 40px #AC255E;
         animation: glow 2s infinite alternate ease-in-out;
     }
 
@@ -65,7 +61,6 @@
       100% {text-shadow: 0 0 20px #AC255E, 0 0 40px #AC255E;}
     }
 
-    /* Input field styling with glow on focus */
     #messageInput {
         width: 100%;
         padding: 0.75rem 1rem;
@@ -86,7 +81,6 @@
         box-shadow: 0 0 10px #AC255E, 0 0 20px #AC255E;
     }
 
-    /* Submit button with hover and click animations */
     #submitBtn {
         padding: 0.75rem 1rem;
         font-size: 1rem;
@@ -109,7 +103,6 @@
         transform: scale(0.98);
     }
 
-    /* Ripple effect on hover */
     #submitBtn::before {
         content: "";
         position: absolute;
@@ -129,7 +122,6 @@
         opacity: 0.1; 
     }
 
-    /* Feedback message styling */
     #feedback {
         font-size: 0.9rem;
         text-align: center;
@@ -138,12 +130,39 @@
         transition: color 0.3s ease;
     }
 
-    /* Responsive adjustments */
+    /* Mini linktree styling */
+    .linktree {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .linktree a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        background: rgba(255,255,255,0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        transition: background 0.3s ease;
+    }
+
+    .linktree a:hover {
+        background: rgba(255,255,255,0.4);
+    }
+
+    /* Icons can be text-based for simplicity, or you can use emojis or SVGs */
+    .linktree a.twitter::before { content: "🐦 "; }
+    .linktree a.instagram::before { content: "📷 "; }
+    .linktree a.facebook::before { content: "📘 "; }
+    .linktree a.bluesky::before { content: "☁️ "; }
+
     @media (max-width: 480px) {
         h1 {
             font-size: 1.4rem;
         }
-
         #messageInput, #submitBtn {
             font-size: 0.9rem;
         }
@@ -157,34 +176,49 @@
     <input type="text" id="messageInput" placeholder="Enter text (10-250 chars)"/>
     <div id="feedback"></div>
     <button id="submitBtn">Submit</button>
+
+    <!-- Mini linktree section -->
+    <div class="linktree">
+        <a href="https://twitter.com/yourprofile" target="_blank" class="twitter">Twitter</a>
+        <a href="https://instagram.com/yourprofile" target="_blank" class="instagram">Instagram</a>
+        <a href="https://facebook.com/yourprofile" target="_blank" class="facebook">Facebook</a>
+        <a href="https://bsky.app/profile/yourprofile" target="_blank" class="bluesky">Bluesky</a>
+    </div>
 </div>
 
 <script>
-    // Callback function for JSONP
     function handleResponse(data) {
         const feedback = document.getElementById('feedback');
         const submitBtn = document.getElementById('submitBtn');
 
         submitBtn.disabled = false;
-
-        if (data.status === 'success') {
-            feedback.style.color = '#00FFAA';
-            feedback.textContent = "Success! Your UID: " + data.uid;
-            document.getElementById('messageInput').value = '';
-        } else {
-            feedback.style.color = 'red';
-            feedback.textContent = "Error occurred.";
-        }
+        feedback.style.color = '#00FFAA';
+        feedback.textContent = "Message submitted successfully!";
+        
+        // Clear the input
+        document.getElementById('messageInput').value = '';
+        
+        // Start cooldown after submission
+        startCooldown();
     }
 
     const messageInput = document.getElementById('messageInput');
     const submitBtn = document.getElementById('submitBtn');
     const feedback = document.getElementById('feedback');
 
-    // Replace with your actual Web App URL
-    const endpointURL = "https://script.google.com/macros/s/AKfycbyeWFWR0kiQoK1rX5CkbG9uxKUWO_MsXIVr9viFbVGXFq5Idm-t5cYlyYlEzbcNLTwPTQ/exec";
+    // Your actual Web App URL
+    const endpointURL = "https://script.google.com/macros/s/AKfycbwCxvA7fOyokQWxdgot3pjQ5UpWd4MwXuRu4LKbc4YnNo_KXQ2bAQJ9TdyqRpqu5U0LRg/exec";
+
+    const cooldownTime = 10000; // 10 seconds
+    let isCoolingDown = false;
 
     submitBtn.addEventListener('click', () => {
+        if (isCoolingDown) {
+            feedback.style.color = 'red';
+            feedback.textContent = "Please wait before submitting again.";
+            return;
+        }
+
         const userText = messageInput.value.trim();
 
         if (userText.length < 10) {
@@ -208,6 +242,16 @@
         script.src = endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText);
         document.body.appendChild(script);
     });
+
+    function startCooldown() {
+        isCoolingDown = true;
+        submitBtn.disabled = true;
+        setTimeout(() => {
+            isCoolingDown = false;
+            submitBtn.disabled = false;
+            feedback.textContent = "";
+        }, cooldownTime);
+    }
 </script>
 </body>
 </html>
