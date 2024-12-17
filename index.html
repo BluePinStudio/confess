@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<!-- 
+    A very simple, modern and responsive design.
+    - Using Flexbox for centering.
+    - Minimalistic styling with a modern font and color scheme.
+    - Animations on the input field and button.
+-->
+
+<title>Submit Your Text</title>
+<style>
+    /* 
+    Basic reset and font setup 
+    */
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background: #f0f0f0;
+        color: #333;
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 
+    Main container: 
+    A card-like structure in the middle of the page for a clean look.
+    */
+    .container {
+        background: #fff;
+        width: 90%;
+        max-width: 400px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        box-sizing: border-box;
+    }
+
+    /* 
+    Heading style:
+    */
+    h1 {
+        font-size: 1.5rem;
+        margin: 0 0 1rem 0;
+        text-align: center;
+        color: #444;
+    }
+
+    /* 
+    Input field styling:
+    - Smooth hover and focus animations.
+    - Subtle border and rounded corners.
+    */
+    .input-field {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        outline: none;
+    }
+
+    .input-field:hover {
+        border-color: #888;
+    }
+
+    .input-field:focus {
+        border-color: #007BFF;
+        box-shadow: 0 0 5px rgba(0,123,255,0.5);
+    }
+
+    /* 
+    Submit button:
+    - Modern gradient background.
+    - Transition effect for hover.
+    - Animated "pulse" on hover.
+    */
+    .submit-btn {
+        padding: 0.75rem;
+        font-size: 1rem;
+        color: #fff;
+        background: linear-gradient(45deg, #007BFF, #00D4FF);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        text-align: center;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+    }
+
+    .submit-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* 
+    Feedback area:
+    - A small paragraph to display error messages or the returned UID.
+    */
+    .feedback {
+        font-size: 0.9rem;
+        color: #333;
+        text-align: center;
+        min-height: 1.5em; /* Reserve space for messages even if empty */
+    }
+
+    /* Add some nice responsive text sizing */
+    @media (max-width: 480px) {
+        .container {
+            padding: 1.5rem;
+        }
+        h1 {
+            font-size: 1.2rem;
+        }
+        .input-field, .submit-btn {
+            font-size: 0.9rem;
+        }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Submit Your Message</h1>
+    <!-- 
+        The input field for entering text.
+        We'll enforce character count validation via JavaScript.
+    -->
+    <input type="text" id="messageInput" class="input-field" placeholder="Enter your text (10-250 chars)"/>
+    
+    <!-- Feedback area for errors or success messages -->
+    <div id="feedback" class="feedback"></div>
+    
+    <!-- Submit button -->
+    <button id="submitBtn" class="submit-btn">Submit</button>
+</div>
+
+<script>
+    // 
+    // JavaScript Code
+    // 
+    // This script will:
+    // - Validate the input length (between 10 and 250 characters).
+    // - On submit, send the data to the Google Apps Script endpoint.
+    // - Display any returned UID or error message.
+    //
+
+    // Select DOM elements
+    const messageInput = document.getElementById('messageInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('feedback');
+
+    // Google Apps Script endpoint:
+    // Replace with your deployed web app URL from Google Apps Script.
+    // For example: const endpointURL = "https://script.google.com/macros/s/XXXXXX/exec";
+    const endpointURL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+    // Add an event listener for the submit button
+    submitBtn.addEventListener('click', handleSubmit);
+
+    // Function to handle the form submission
+    function handleSubmit() {
+        const userText = messageInput.value.trim();
+
+        // Validate the input length
+        if (userText.length < 10) {
+            feedback.style.color = 'red';
+            feedback.textContent = "Your entry is too short. It must be at least 10 characters.";
+            return;
+        }
+        if (userText.length > 250) {
+            feedback.style.color = 'red';
+            feedback.textContent = "Your entry is too long. It must be 250 characters or fewer.";
+            return;
+        }
+
+        // Disable the button to prevent multiple submissions
+        submitBtn.disabled = true;
+        feedback.textContent = "Submitting... Please wait.";
+
+        // Create the payload to send to the server
+        const payload = {
+            text: userText
+        };
+
+        // Use Fetch API to POST the data to the endpoint
+        fetch(endpointURL, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            submitBtn.disabled = false;
+            if (data.status === "success") {
+                // Display the UID returned from the server
+                feedback.style.color = 'green';
+                feedback.textContent = `Success! Your UID is: ${data.uid}`;
+                // Optionally clear the input
+                messageInput.value = '';
+            } else {
+                // Some error occurred on the server side
+                feedback.style.color = 'red';
+                feedback.textContent = "An error occurred. Please try again.";
+            }
+        })
+        .catch(err => {
+            submitBtn.disabled = false;
+            console.error('Error submitting data:', err);
+            feedback.style.color = 'red';
+            feedback.textContent = "A network error occurred. Please try again.";
+        });
+    }
+</script>
+</body>
+</html>
