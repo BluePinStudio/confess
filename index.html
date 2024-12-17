@@ -27,7 +27,6 @@
         overflow: hidden;
     }
 
-    /* Top Title Section */
     .title-bar {
         margin-top: 2rem;
         margin-bottom: 1rem;
@@ -81,7 +80,6 @@
       100% {text-shadow: 0 0 20px #AC255E, 0 0 40px #AC255E;}
     }
 
-    /* Textarea for message input */
     #messageInput {
         width: 100%;
         padding: 0.75rem 1rem;
@@ -92,7 +90,7 @@
         background: rgba(255,255,255,0.2);
         outline: none;
         height: 100px;
-        resize: vertical;
+        resize: none;
         line-height: 1.4;
         overflow-wrap: break-word;
         transition: box-shadow 0.3s ease;
@@ -155,7 +153,6 @@
         transition: color 0.3s ease;
     }
 
-    /* Mini linktree with PNG icons */
     .linktree {
         display: flex;
         justify-content: center;
@@ -202,54 +199,46 @@
 
 <div class="container">
     <h2>Submit Your Message</h2>
-    <textarea id="messageInput" placeholder="Enter text (10-250 chars). Press Enter to submit, Shift+Enter for newline." wrap="soft"></textarea>
+    <textarea id="messageInput" placeholder="Enter text (10-250 chars). Press Enter to submit." wrap="soft"></textarea>
     <div id="feedback"></div>
     <button id="submitBtn">Submit</button>
 
-    <!-- Mini linktree section with PNG icons -->
     <div class="linktree">
-        <!-- Replace these src URLs with actual image URLs for your icons -->
-        <a href="https://twitter.com/yourprofile" target="_blank" class="twitter">
+        <a href="https://twitter.com/yourprofile" target="_blank">
             <img src="https://via.placeholder.com/24x24?text=T" alt="Twitter">
         </a>
-        <a href="https://instagram.com/yourprofile" target="_blank" class="instagram">
+        <a href="https://instagram.com/yourprofile" target="_blank">
             <img src="https://via.placeholder.com/24x24?text=I" alt="Instagram">
         </a>
-        <a href="https://facebook.com/yourprofile" target="_blank" class="facebook">
+        <a href="https://facebook.com/yourprofile" target="_blank">
             <img src="https://via.placeholder.com/24x24?text=F" alt="Facebook">
         </a>
-        <a href="https://bsky.app/profile/yourprofile" target="_blank" class="bluesky">
+        <a href="https://bsky.app/profile/yourprofile" target="_blank">
             <img src="https://via.placeholder.com/24x24?text=B" alt="Bluesky">
         </a>
     </div>
 </div>
 
 <script>
-    function handleResponse(data) {
-        const feedback = document.getElementById('feedback');
-        const submitBtn = document.getElementById('submitBtn');
-
-        submitBtn.disabled = false;
-        feedback.style.color = '#00FFAA';
-        feedback.textContent = "Message submitted successfully!";
-        
-        // Clear the textarea
-        const messageInput = document.getElementById('messageInput');
-        messageInput.value = '';
-        
-        // Start cooldown after submission
-        startCooldown();
-    }
-
     const messageInput = document.getElementById('messageInput');
     const submitBtn = document.getElementById('submitBtn');
     const feedback = document.getElementById('feedback');
 
-    // Your actual Web App URL
-    const endpointURL = "https://script.google.com/macros/s/AKfycbymhe01BldVibdJsP97aHsXm522RZhzGycNqUl11RF8RGKDYopq80Yi-fWv5kJJgZ1bJw/exec";
-
+    const endpointURL = "https://script.google.com/macros/s/AKfycbzVr60PRxArRoWn7GzhLShBvDNHnrQ4i6w9aZNHQJQQgX0Vrtpr8SumMyFGDWmyczfpvQ/exec";
     const cooldownTime = 10000; // 10 seconds
     let isCoolingDown = false;
+
+    function handleResponse(data) {
+        submitBtn.disabled = false;
+        messageInput.disabled = false;
+        feedback.style.color = '#00FFAA';
+        feedback.textContent = "Message submitted successfully!";
+        
+        // Clear the textarea
+        messageInput.value = '';
+        
+        startCooldown();
+    }
 
     function submitMessage() {
         if (isCoolingDown) {
@@ -275,34 +264,54 @@
         feedback.style.color = '#fff';
         feedback.textContent = "Submitting...";
         submitBtn.disabled = true;
+        messageInput.disabled = true;
 
-        // Get device info from user agent
-        const deviceInfo = navigator.userAgent;
+        // Determine simplified device string
+        const device = getDeviceType();
 
         // Create a script tag for JSONP
         const script = document.createElement('script');
-        script.src = endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText) + "&device=" + encodeURIComponent(deviceInfo);
+        script.src = endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText) + "&device=" + encodeURIComponent(device);
         document.body.appendChild(script);
     }
-
-    submitBtn.addEventListener('click', submitMessage);
-
-    // Submit on Enter, allow newline with Shift+Enter
-    messageInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault(); // Prevent newline
-            submitMessage();
-        }
-    });
 
     function startCooldown() {
         isCoolingDown = true;
         submitBtn.disabled = true;
+        messageInput.disabled = true;
         setTimeout(() => {
             isCoolingDown = false;
             submitBtn.disabled = false;
+            messageInput.disabled = false;
             feedback.textContent = "";
         }, cooldownTime);
+    }
+
+    // Prevent newlines: On keydown 'Enter' submits the message, no shift enter allowed
+    messageInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            submitMessage();
+        }
+    });
+
+    // Prevent pasting newlines:
+    messageInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        let pastedText = (e.clipboardData || window.clipboardData).getData('text');
+        pastedText = pastedText.replace(/\r?\n|\r/g, ' '); // Replace newlines with space
+        document.execCommand('insertText', false, pastedText);
+    });
+
+    submitBtn.addEventListener('click', submitMessage);
+
+    function getDeviceType() {
+        const ua = navigator.userAgent.toLowerCase();
+        if (/android/.test(ua)) return "Android";
+        if (/iphone|ipad|ipod/.test(ua)) return "iOS";
+        if (/windows/.test(ua)) return "Windows";
+        if (/macintosh|mac os x/.test(ua)) return "macOS";
+        return "Other";
     }
 </script>
 </body>
