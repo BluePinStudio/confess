@@ -153,6 +153,12 @@
         transition: color 0.3s ease;
     }
 
+    .char-counter {
+        font-size: 0.8rem;
+        text-align: right;
+        color: #ccc;
+    }
+
     .linktree {
         display: flex;
         justify-content: center;
@@ -200,42 +206,82 @@
 <div class="container">
     <h2>Submit Your Message</h2>
     <textarea id="messageInput" placeholder="Enter text (10-250 chars). Press Enter to submit." wrap="soft"></textarea>
+    <div class="char-counter" id="charCounter"></div>
     <div id="feedback"></div>
     <button id="submitBtn">Submit</button>
 
-    <div class="linktree">
-        <a href="https://twitter.com/yourprofile" target="_blank">
-            <img src="https://via.placeholder.com/24x24?text=T" alt="Twitter">
-        </a>
-        <a href="https://instagram.com/yourprofile" target="_blank">
-            <img src="https://via.placeholder.com/24x24?text=I" alt="Instagram">
-        </a>
-        <a href="https://facebook.com/yourprofile" target="_blank">
-            <img src="https://via.placeholder.com/24x24?text=F" alt="Facebook">
-        </a>
-        <a href="https://bsky.app/profile/yourprofile" target="_blank">
-            <img src="https://via.placeholder.com/24x24?text=B" alt="Bluesky">
-        </a>
-    </div>
+    <div class="linktree" id="linktreeContainer"></div>
 </div>
 
 <script>
+    /*************************************
+     *           CONFIGURATION
+     *************************************/
+    const CONFIG = {
+        endpointURL: "https://script.google.com/macros/s/AKfycbwchNaE2wlGIjtJmeh1WowQkjuFJiWoTZY_czsGixZBfwko1QfXYXAPhsbp4ICJO6mjOQ/exec",
+        minChars: 10,
+        maxChars: 280,
+        cooldownTime: 10000,
+        successMessage: "Message submitted successfully!",
+        shortMessageError: "Your entry is too short! Min 10 chars.",
+        longMessageError: "Your entry is too long! Max 250 chars.",
+        waitMessage: "Please wait before submitting again.",
+        submittingMessage: "Submitting...",
+        linktreeLinks: [
+            { href: "https://twitter.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=T", alt: "Twitter" },
+            { href: "https://instagram.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=I", alt: "Instagram" },
+            { href: "https://facebook.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=F", alt: "Facebook" },
+            { href: "https://bsky.app/profile/yourprofile", icon: "https://via.placeholder.com/24x24?text=B", alt: "Bluesky" }
+        ]
+    };
+
+    /*************************************
+     *        DOM ELEMENTS
+     *************************************/
     const messageInput = document.getElementById('messageInput');
     const submitBtn = document.getElementById('submitBtn');
     const feedback = document.getElementById('feedback');
+    const charCounter = document.getElementById('charCounter');
+    const linktreeContainer = document.getElementById('linktreeContainer');
 
-    const endpointURL = "https://script.google.com/macros/s/AKfycbzVr60PRxArRoWn7GzhLShBvDNHnrQ4i6w9aZNHQJQQgX0Vrtpr8SumMyFGDWmyczfpvQ/exec";
-    const cooldownTime = 10000; // 10 seconds
+    /*************************************
+     *          INITIAL SETUP
+     *************************************/
     let isCoolingDown = false;
+    updateCharCounter();
 
+    // Build linktree from config
+    CONFIG.linktreeLinks.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.href;
+        a.target = "_blank";
+        const img = document.createElement('img');
+        img.src = link.icon;
+        img.alt = link.alt;
+        a.appendChild(img);
+        linktreeContainer.appendChild(a);
+    });
+
+    /*************************************
+     *          EVENT LISTENERS
+     *************************************/
+    submitBtn.addEventListener('click', submitMessage);
+    messageInput.addEventListener('keydown', handleKeydown);
+    messageInput.addEventListener('input', handleInput);
+    messageInput.addEventListener('paste', handlePaste);
+
+    /*************************************
+     *          FUNCTIONS
+     *************************************/
     function handleResponse(data) {
         submitBtn.disabled = false;
         messageInput.disabled = false;
         feedback.style.color = '#00FFAA';
-        feedback.textContent = "Message submitted successfully!";
+        feedback.textContent = CONFIG.successMessage;
         
         // Clear the textarea
         messageInput.value = '';
+        updateCharCounter();
         
         startCooldown();
     }
@@ -243,26 +289,26 @@
     function submitMessage() {
         if (isCoolingDown) {
             feedback.style.color = 'red';
-            feedback.textContent = "Please wait before submitting again.";
+            feedback.textContent = CONFIG.waitMessage;
             return;
         }
 
         const userText = messageInput.value.trim();
 
-        if (userText.length < 10) {
+        if (userText.length < CONFIG.minChars) {
             feedback.style.color = 'red';
-            feedback.textContent = "Your entry is too short! Min 10 chars.";
+            feedback.textContent = CONFIG.shortMessageError;
             return;
         }
 
-        if (userText.length > 250) {
+        if (userText.length > CONFIG.maxChars) {
             feedback.style.color = 'red';
-            feedback.textContent = "Your entry is too long! Max 250 chars.";
+            feedback.textContent = CONFIG.longMessageError;
             return;
         }
 
         feedback.style.color = '#fff';
-        feedback.textContent = "Submitting...";
+        feedback.textContent = CONFIG.submittingMessage;
         submitBtn.disabled = true;
         messageInput.disabled = true;
 
@@ -271,7 +317,7 @@
 
         // Create a script tag for JSONP
         const script = document.createElement('script');
-        script.src = endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText) + "&device=" + encodeURIComponent(device);
+        script.src = CONFIG.endpointURL + "?callback=handleResponse&text=" + encodeURIComponent(userText) + "&device=" + encodeURIComponent(device);
         document.body.appendChild(script);
     }
 
@@ -284,26 +330,35 @@
             submitBtn.disabled = false;
             messageInput.disabled = false;
             feedback.textContent = "";
-        }, cooldownTime);
+        }, CONFIG.cooldownTime);
     }
 
-    // Prevent newlines: On keydown 'Enter' submits the message, no shift enter allowed
-    messageInput.addEventListener('keydown', function(e) {
+    function handleKeydown(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             submitMessage();
         }
-    });
+    }
 
-    // Prevent pasting newlines:
-    messageInput.addEventListener('paste', function(e) {
+    function handlePaste(e) {
         e.preventDefault();
         let pastedText = (e.clipboardData || window.clipboardData).getData('text');
-        pastedText = pastedText.replace(/\r?\n|\r/g, ' '); // Replace newlines with space
+        // Replace newlines with spaces
+        pastedText = pastedText.replace(/\r?\n|\r/g, ' ');
         document.execCommand('insertText', false, pastedText);
-    });
+    }
 
-    submitBtn.addEventListener('click', submitMessage);
+    function handleInput() {
+        // No newline allowed, remove them if typed by other means
+        messageInput.value = messageInput.value.replace(/\r?\n|\r/g, ' ');
+        updateCharCounter();
+    }
+
+    function updateCharCounter() {
+        const length = messageInput.value.trim().length;
+        const remaining = CONFIG.maxChars - length;
+        charCounter.textContent = remaining + " characters remaining";
+    }
 
     function getDeviceType() {
         const ua = navigator.userAgent.toLowerCase();
