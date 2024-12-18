@@ -9,19 +9,11 @@ html, body {
     width: 100%;
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #FF0000 0%, #000000 100%);
-    background-size: 400% 400%;
-    animation: gradientLoop 15s ease infinite;
+    background: #1a1a1a; /* Static dark background */
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #fff;
-}
-
-@keyframes gradientLoop {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
 }
 
 .title-bar {
@@ -34,6 +26,7 @@ html, body {
 .title-bar h1 {
     font-size: 2rem;
     font-weight: 600;
+    color: #FF0000; /* Red title */
     text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
 }
 
@@ -49,7 +42,7 @@ html, body {
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -73,6 +66,7 @@ html, body {
     font-weight: 600;
     font-size: 1.8rem;
     text-align: center;
+    color: #FF0000;
     text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000, 0 0 30px #FF0000, 0 0 40px #FF0000;
     animation: glow 2s infinite alternate ease-in-out;
     margin-bottom: 0.5rem;
@@ -197,7 +191,7 @@ html, body {
 
 /* Confession Feed Styles */
 .confession-feed-container {
-    background: rgba(255, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -215,13 +209,14 @@ html, body {
     font-weight: 600;
     font-size: 1.8rem;
     text-align: center;
+    color: #FF0000;
     text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000, 0 0 30px #FF0000, 0 0 40px #FF0000;
     animation: glow 2s infinite alternate ease-in-out;
     margin-bottom: 1rem;
 }
 
 .confession {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(255, 0, 0, 0.2);
     border-radius: 10px;
     padding: 1rem;
     margin-bottom: 1rem;
