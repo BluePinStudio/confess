@@ -1,0 +1,61 @@
+/* Confession Feed Styles */
+.confession-feed-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.2);
+    animation: fadeIn 1s ease;
+    color: #fff;
+}
+
+.confession-feed-container h2 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: center;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #AC255E, 0 0 40px #AC255E;
+    animation: glow 2s infinite alternate ease-in-out;
+    margin-bottom: 1rem;
+}
+
+.confession {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.confession .timestamp {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+}
+
+.confession .text {
+    font-size: 1rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+@media (max-width: 480px) {
+    /* Existing media queries */
+
+    /* Adjust confession feed for smaller screens */
+    .confession-feed-container {
+        padding: 1rem;
+    }
+
+    .confession-feed-container h2 {
+        font-size: 1.4rem;
+    }
+
+    .confession .text {
+        font-size: 0.9rem;
+    }
+}

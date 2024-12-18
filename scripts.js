@@ -16,7 +16,8 @@ const CONFIG = {
         { href: "https://instagram.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=I", alt: "Instagram" },
         { href: "https://facebook.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=F", alt: "Facebook" },
         { href: "https://bsky.app/profile/yourprofile", icon: "https://via.placeholder.com/24x24?text=B", alt: "Bluesky" }
-    ]
+    ],
+    confessionsURL: "confessions.json" // URL to the confessions data file
 };
 
 /*************************************
@@ -27,6 +28,7 @@ const submitBtn = document.getElementById('submitBtn');
 const feedback = document.getElementById('feedback');
 const charCounter = document.getElementById('charCounter');
 const linktreeContainer = document.getElementById('linktreeContainer');
+const confessionFeed = document.getElementById('confessionFeed'); // New element for the feed
 
 /*************************************
  *          INITIAL SETUP
@@ -45,6 +47,9 @@ CONFIG.linktreeLinks.forEach(link => {
     a.appendChild(img);
     linktreeContainer.appendChild(a);
 });
+
+// Fetch and display confessions on initial load
+fetchConfessions();
 
 /*************************************
  *          EVENT LISTENERS
@@ -67,6 +72,7 @@ function handleResponse(data) {
         messageInput.value = '';
         updateCharCounter();
         startCooldown();
+        fetchConfessions(); // Refresh the confession feed after submission
     } else {
         // Server reported an error
         feedback.style.color = 'red';
@@ -155,4 +161,59 @@ function getDeviceType() {
     if (/windows/.test(ua)) return "Windows";
     if (/macintosh|mac os x/.test(ua)) return "macOS";
     return "Other";
+}
+
+/*************************************
+ *        Confession Feed
+ *************************************/
+function fetchConfessions() {
+    fetch(CONFIG.confessionsURL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayConfessions(data);
+        })
+        .catch(error => {
+            console.error('Error fetching confessions:', error);
+            confessionFeed.innerHTML = 'Failed to load confessions.';
+        });
+}
+
+function displayConfessions(confessions) {
+    // Clear the current feed
+    confessionFeed.innerHTML = '';
+
+    if (!Array.isArray(confessions) || confessions.length === 0) {
+        confessionFeed.innerHTML = 'No confessions yet. Be the first to confess!';
+        return;
+    }
+
+    // Sort confessions by timestamp descending
+    confessions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    // Display the top 10 recent confessions
+    const recentConfessions = confessions.slice(0, 10);
+
+    recentConfessions.forEach(confession => {
+        const confessionDiv = document.createElement('div');
+        confessionDiv.classList.add('confession');
+
+        const timestampDiv = document.createElement('div');
+        timestampDiv.classList.add('timestamp');
+        const date = new Date(confession.timestamp);
+        timestampDiv.textContent = date.toLocaleString();
+
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('text');
+        textDiv.textContent = confession.text;
+
+        confessionDiv.appendChild(timestampDiv);
+        confessionDiv.appendChild(textDiv);
+
+        confessionFeed.appendChild(confessionDiv);
+    });
 }
