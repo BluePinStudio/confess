@@ -73,7 +73,6 @@ function handleResponse(data) {
         updateCharCounter();
         startCooldown();
         fetchConfessions(); // Refresh the confession feed after submission
-        triggerFireworks();
     } else {
         // Server reported an error
         feedback.style.color = 'red';
@@ -235,43 +234,4 @@ function displayConfessions(confessions) {
 function parseDate(dateStr) {
     const [day, month, year] = dateStr.split('/');
     return new Date(`${year}-${month}-${day}`);
-}
-
-/*************************************
- *        Fireworks Effect
- *************************************/
-function triggerFireworks() {
-    const container = document.body;
-    const fireworks = new Fireworks(container, {
-        speed: 2,
-        acceleration: 1.05,
-        friction: 0.98,
-        gravity: 1.5,
-        particles: 50,
-        trace: 3,
-        explosion: 5,
-        autoresize: true,
-        opacity: 0.8,
-        explosionMax: 5,
-        brightness: {
-            min: 50,
-            max: 80
-        },
-        flickering: 50,
-        delay: {
-            min: 30,
-            max: 50
-        },
-        rocketsPoint: {
-            min: 50,
-            max: 50
-        },
-    });
-
-    fireworks.start();
-
-    // Stop fireworks after 3 seconds
-    setTimeout(() => {
-        fireworks.stop();
-    }, 3000);
 }
