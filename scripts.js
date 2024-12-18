@@ -244,3 +244,71 @@ function parseDate(dateStr) {
     const [day, month, year] = dateStr.split('/');
     return new Date(`${year}-${month}-${day}`);
 }
+
+// Matrix-like background with words from confessions.json
+
+const canvas = document.getElementById('matrixCanvas');
+const ctx = canvas.getContext('2d');
+
+// Resize the canvas to fill browser window dynamically
+window.addEventListener('resize', resizeCanvas, false);
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+
+// Load confessions.json and extract words
+let words = [];
+
+fetch('confessions.json')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(confession => {
+            // Split confession text into words and filter out short words
+            const confessionWords = confession.text.split(' ').filter(word => word.length > 2);
+            words = words.concat(confessionWords);
+        });
+        startMatrix();
+    })
+    .catch(error => console.error('Error loading confessions:', error));
+
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = [];
+
+// Initialize drops
+for (let x = 0; x < columns; x++) {
+    drops[x] = Math.random() * canvas.height;
+}
+
+function startMatrix() {
+    setInterval(draw, 50);
+}
+
+function draw() {
+    // Black BG with opacity to create trail
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Set text color to red and font
+    ctx.fillStyle = '#FF0000';
+    ctx.font = fontSize + 'px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+        // Pick a random word
+        const word = words[Math.floor(Math.random() * words.length)];
+        // x = i * fontSize, y = drops[i]
+        ctx.fillText(word, i * fontSize, drops[i]);
+
+        // Reset to top if it goes beyond canvas height
+        if (drops[i] > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+
+        // Increment y coordinate
+        drops[i] += fontSize;
+    }
+}
