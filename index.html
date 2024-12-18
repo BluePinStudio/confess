@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Confess</title>
+    <title>Toronto FESS</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -14,13 +14,14 @@
 <body>
 
     <div class="title-bar">
-        <h1>Confess</h1>
+        <h1>Toronto FESS</h1>
+        <p class="subtitle">Submitting a confession gives us permission to publish it.</p>
     </div>
 
     <div class="container">
         <h2>Submit Your Message</h2>
-        <textarea id="messageInput" placeholder="Enter text (10-250 chars). Press Enter to submit." wrap="soft"></textarea>
-        <div class="char-counter" id="charCounter"></div>
+        <textarea id="messageInput" placeholder="What do you have to confess?" wrap="soft"></textarea>
+        <div class="char-counter" id="charCounter">280 characters remaining</div>
         <div id="feedback"></div>
         <button id="submitBtn">Submit</button>
 
@@ -32,6 +33,9 @@
         <h2>Recent Confessions</h2>
         <div id="confessionFeed">Loading confessions...</div>
     </div>
+
+    <!-- Fireworks Library -->
+    <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.0.7/dist/fireworks.min.js"></script>
 
     <!-- External JavaScript -->
     <script src="scripts.js"></script>

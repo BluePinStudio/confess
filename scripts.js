@@ -73,6 +73,7 @@ function handleResponse(data) {
         updateCharCounter();
         startCooldown();
         fetchConfessions(); // Refresh the confession feed after submission
+        triggerFireworks();
     } else {
         // Server reported an error
         feedback.style.color = 'red';
@@ -97,8 +98,11 @@ function submitMessage() {
 
     if (userText.length > CONFIG.maxChars) {
         feedback.style.color = 'red';
-        feedback.textContent = CONFIG.longMessageError;
+        feedback.textContent = `Too long by ${userText.length - CONFIG.maxChars} characters`;
+        charCounter.classList.add('too-long');
         return;
+    } else {
+        charCounter.classList.remove('too-long');
     }
 
     feedback.style.color = '#fff';
@@ -151,7 +155,13 @@ function handleInput() {
 function updateCharCounter() {
     const length = messageInput.value.trim().length;
     const remaining = CONFIG.maxChars - length;
-    charCounter.textContent = `${remaining} characters remaining`;
+    if (remaining >= 0) {
+        charCounter.textContent = `${remaining} characters remaining`;
+        charCounter.classList.remove('too-long');
+    } else {
+        charCounter.textContent = `Too long by ${-remaining} characters`;
+        charCounter.classList.add('too-long');
+    }
 }
 
 function getDeviceType() {
@@ -192,8 +202,12 @@ function displayConfessions(confessions) {
         return;
     }
 
-    // Sort confessions by timestamp descending
-    confessions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    // Sort confessions by date descending
+    confessions.sort((a, b) => {
+        const dateA = parseDate(a.date);
+        const dateB = parseDate(b.date);
+        return dateB - dateA;
+    });
 
     // Display the top 10 recent confessions
     const recentConfessions = confessions.slice(0, 10);
@@ -204,8 +218,7 @@ function displayConfessions(confessions) {
 
         const timestampDiv = document.createElement('div');
         timestampDiv.classList.add('timestamp');
-        const date = new Date(confession.timestamp);
-        timestampDiv.textContent = date.toLocaleString();
+        timestampDiv.textContent = confession.date;
 
         const textDiv = document.createElement('div');
         textDiv.classList.add('text');
@@ -216,4 +229,49 @@ function displayConfessions(confessions) {
 
         confessionFeed.appendChild(confessionDiv);
     });
+}
+
+function parseDate(dateStr) {
+    const [day, month, year] = dateStr.split('/');
+    return new Date(`${year}-${month}-${day}`);
+}
+
+/*************************************
+ *        Fireworks Effect
+ *************************************/
+function triggerFireworks() {
+    const container = document.body;
+    const fireworks = new Fireworks(container, {
+        speed: 2,
+        acceleration: 1.05,
+        friction: 0.98,
+        gravity: 1.5,
+        particles: 50,
+        trace: 3,
+        explosion: 5,
+        autoresize: true,
+        opacity: 0.8,
+        explosionMax: 5,
+        autoresize: true,
+        brightness: {
+            min: 50,
+            max: 80
+        },
+        flickering: 50,
+        delay: {
+            min: 30,
+            max: 50
+        },
+        rocketsPoint: {
+            min: 50,
+            max: 50
+        },
+    });
+
+    fireworks.start();
+
+    // Stop fireworks after 3 seconds
+    setTimeout(() => {
+        fireworks.stop();
+    }, 3000);
 }

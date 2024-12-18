@@ -1,10 +1,126 @@
 [
     {
-        "timestamp": "2024-04-15T12:34:56Z",
-        "text": "I feel happy today!"
+        "date": "01/05/2024",
+        "text": "I accidentally boarded the wrong streetcar and ended up on the other side of the city. Spent an extra hour trying to find my way back."
     },
     {
-        "timestamp": "2024-04-14T09:21:00Z",
-        "text": "Today was a tough day."
+        "date": "02/05/2024",
+        "text": "I tried to impress a date by suggesting a rooftop bar, but it was under construction. We ended up at a dingy dive instead."
+    },
+    {
+        "date": "03/05/2024",
+        "text": "I spilled my coffee on the subway and had to apologize to a stranger who got soaked too."
+    },
+    {
+        "date": "04/05/2024",
+        "text": "I got stuck in an elevator at CN Tower with my ex. It was awkward to the max."
+    },
+    {
+        "date": "05/05/2024",
+        "text": "I forgot my umbrella on a rainy day and soaked myself walking from the subway station."
+    },
+    {
+        "date": "06/05/2024",
+        "text": "I accidentally waved at someone who wasn't actually waving at me. Now I feel so embarrassed."
+    },
+    {
+        "date": "07/05/2024",
+        "text": "I went to a Kensington Market date and realized I had spinach stuck in my teeth the entire time."
+    },
+    {
+        "date": "08/05/2024",
+        "text": "I got caught singing loudly to my favorite song on the GO train when the doors opened."
+    },
+    {
+        "date": "09/05/2024",
+        "text": "I wore white shoes to a Toronto Raptors game and they got ruined by spilled drinks. So disappointing."
+    },
+    {
+        "date": "10/05/2024",
+        "text": "I took a selfie with a beaver in High Park, but the beaver swiped my phone right off my hand."
+    },
+    {
+        "date": "11/05/2024",
+        "text": "I tried to skateboard along the PATH and ended up on the emergency stairs after a bad fall."
+    },
+    {
+        "date": "12/05/2024",
+        "text": "I accidentally sent a message complaining about a date to the date themselves. Now it's really awkward."
+    },
+    {
+        "date": "13/05/2024",
+        "text": "I got locked out of my apartment in the middle of winter and had to sleep on the couch for three days."
+    },
+    {
+        "date": "14/05/2024",
+        "text": "I tried to impress my friends with my street dance moves at a Queen Street party, but tripped and fell flat on my face."
+    },
+    {
+        "date": "15/05/2024",
+        "text": "I forgot to cancel my gym membership and ended up paying for it every month without using it."
+    },
+    {
+        "date": "16/05/2024",
+        "text": "I went to a live music show in Little Italy and spilled my drink on the band. They were not amused."
+    },
+    {
+        "date": "17/05/2024",
+        "text": "I tried to ride a bike on Lake Shore Boulevard and ended up stuck in traffic for an hour."
+    },
+    {
+        "date": "18/05/2024",
+        "text": "I attended a drag show in Queen West and accidentally called the performer by the wrong name the entire night."
+    },
+    {
+        "date": "19/05/2024",
+        "text": "I bought a map of Toronto to show my tourist friend, but I couldn't read it myself and we got lost for hours."
+    },
+    {
+        "date": "20/05/2024",
+        "text": "I went ice skating at Nathan Phillips Square and fell into the pond during a crowded session."
+    },
+    {
+        "date": "21/05/2024",
+        "text": "I tried to take a shortcut through a construction site and got stuck behind a pile of gravel for 20 minutes."
+    },
+    {
+        "date": "22/05/2024",
+        "text": "I ordered a fancy latte to impress my coworker, but the barista spelled my name wrong. We laughed it off, but it was still cringe."
+    },
+    {
+        "date": "23/05/2024",
+        "text": "I attempted to navigate through Yonge-Dundas Square on rollerblades and collided with a street performer."
+    },
+    {
+        "date": "24/05/2024",
+        "text": "I mistook a homeless person's belongings for mine in the morning rush and returned their stuff to the wrong location."
+    },
+    {
+        "date": "25/05/2024",
+        "text": "I tried to join a local Toronto trivia night, but knew nothing about the city's history. Got all the answers wrong."
+    },
+    {
+        "date": "26/05/2024",
+        "text": "I attended a Polar Bear Swim and realized I forgot to bring a towel. Had to run home immediately."
+    },
+    {
+        "date": "27/05/2024",
+        "text": "I got lost in the Toronto Islands and ended up spending the night camping alone."
+    },
+    {
+        "date": "28/05/2024",
+        "text": "I tried to pet a stray cat near the University of Toronto, but it scratched me fiercely. Now I'm banned from the area."
+    },
+    {
+        "date": "29/05/2024",
+        "text": "I went to a downtown art gallery opening and accidentally spilled red wine on an abstract painting."
+    },
+    {
+        "date": "30/05/2024",
+        "text": "I attempted to parallel park on Queen Street and ended up scraping my bumper against another car."
+    },
+    {
+        "date": "31/05/2024",
+        "text": "I thought I was entering a free sample station at St. Lawrence Market, but it was actually a high-end product demo."
     }
 ]
