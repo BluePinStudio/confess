@@ -1,4 +1,259 @@
 /*************************************
+ *           CONFIGURATION
+ *************************************/
+const CONFIG = {
+    endpointURL: "https://script.google.com/macros/s/AKfycbzWBofHsiPZ8--iZ84lkiawx5Wpuliw7YLkcvQIOz9eoOoQmtoDrAkAl_htWJWvbGQSqA/exec",
+    minChars: 10,
+    maxChars: 280,
+    cooldownTime: 10000, // 10 seconds
+    successMessage: "Confession submitted successfully!",
+    shortMessageError: "Your confession is too short! Minimum 10 characters.",
+    longMessageError: "Your confession is too long by {x} characters.",
+    waitMessage: "Please wait before submitting another confession.",
+    submittingMessage: "Submitting...",
+    linktreeLinks: [
+        { href: "https://twitter.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=T", alt: "Twitter" },
+        { href: "https://instagram.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=I", alt: "Instagram" },
+        { href: "https://facebook.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=F", alt: "Facebook" },
+        { href: "https://bsky.app/profile/yourprofile", icon: "https://via.placeholder.com/24x24?text=B", alt: "Bluesky" }
+    ],
+    confessionsURL: "confessions.json",
+    confessionsPerPage: 5
+};
+
+/*************************************
+ *        DOM ELEMENTS
+ *************************************/
+const messageInput = document.getElementById('messageInput');
+const submitBtn = document.getElementById('submitBtn');
+const feedback = document.getElementById('feedback');
+const charCounter = document.getElementById('charCounter');
+const linktreeContainer = document.getElementById('linktreeContainer');
+const confessionFeed = document.getElementById('confessionFeed');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+/*************************************
+ *          INITIAL SETUP
+ *************************************/
+let isCoolingDown = false;
+let allConfessions = [];
+let currentPage = 0;
+
+updateCharCounter();
+
+// Build linktree from config
+CONFIG.linktreeLinks.forEach(link => {
+    const a = document.createElement('a');
+    a.href = link.href;
+    a.target = "_blank";
+    const img = document.createElement('img');
+    img.src = link.icon;
+    img.alt = link.alt;
+    a.appendChild(img);
+    linktreeContainer.appendChild(a);
+});
+
+// Fetch and display confessions on initial load
+fetchConfessions();
+
+/*************************************
+ *          EVENT LISTENERS
+ *************************************/
+submitBtn.addEventListener('click', submitMessage);
+messageInput.addEventListener('keydown', handleKeydown);
+messageInput.addEventListener('input', handleInput);
+messageInput.addEventListener('paste', handlePaste);
+loadMoreBtn.addEventListener('click', loadMoreConfessions);
+
+/*************************************
+ *          FUNCTIONS
+ *************************************/
+
+/* Handle JSONP Response */
+window.handleResponse = function(data) {
+    submitBtn.disabled = false;
+    messageInput.disabled = false;
+
+    if (data.status === "success") {
+        feedback.style.color = '#00FFAA';
+        feedback.textContent = CONFIG.successMessage;
+        messageInput.value = '';
+        updateCharCounter();
+        startCooldown();
+        fetchConfessions(); // Refresh the confession feed after submission
+    } else {
+        // Server reported an error
+        feedback.style.color = '#FF0000';
+        feedback.textContent = data.error || "Server error.";
+    }
+}
+
+/* Submit Confession */
+function submitMessage() {
+    if (isCoolingDown) {
+        feedback.style.color = '#FF0000';
+        feedback.textContent = CONFIG.waitMessage;
+        return;
+    }
+
+    const userText = messageInput.value.trim();
+
+    if (userText.length < CONFIG.minChars) {
+        feedback.style.color = '#FF0000';
+        feedback.textContent = CONFIG.shortMessageError;
+        return;
+    }
+
+    if (userText.length > CONFIG.maxChars) {
+        const excess = userText.length - CONFIG.maxChars;
+        feedback.style.color = '#FF0000';
+        feedback.textContent = CONFIG.longMessageError.replace('{x}', excess);
+        charCounter.classList.add('too-long');
+        return;
+    } else {
+        charCounter.classList.remove('too-long');
+    }
+
+    feedback.style.color = '#fff';
+    feedback.textContent = CONFIG.submittingMessage;
+    submitBtn.disabled = true;
+    messageInput.disabled = true;
+
+    // Determine device type
+    const device = getDeviceType();
+
+    // Create a script tag for JSONP
+    const script = document.createElement('script');
+    script.src = `${CONFIG.endpointURL}?callback=handleResponse&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}`;
+    document.body.appendChild(script);
+}
+
+/* Start Cooldown */
+function startCooldown() {
+    isCoolingDown = true;
+    submitBtn.disabled = true;
+    messageInput.disabled = true;
+    setTimeout(() => {
+        isCoolingDown = false;
+        submitBtn.disabled = false;
+        messageInput.disabled = false;
+        feedback.textContent = "";
+    }, CONFIG.cooldownTime);
+}
+
+/* Handle Enter Key */
+function handleKeydown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitMessage();
+    }
+}
+
+/* Handle Paste Event */
+function handlePaste(e) {
+    e.preventDefault();
+    let pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    // Replace newlines with spaces
+    pastedText = pastedText.replace(/\r?\n|\r/g, ' ');
+    document.execCommand('insertText', false, pastedText);
+}
+
+/* Handle Input Event */
+function handleInput() {
+    // Remove any remaining newlines
+    messageInput.value = messageInput.value.replace(/\r?\n|\r/g, ' ');
+    updateCharCounter();
+}
+
+/* Update Character Counter */
+function updateCharCounter() {
+    const length = messageInput.value.trim().length;
+    const remaining = CONFIG.maxChars - length;
+    if (remaining >= 0) {
+        charCounter.textContent = `${remaining} characters remaining`;
+        charCounter.classList.remove('too-long');
+    } else {
+        charCounter.textContent = `Too long by ${-remaining} characters`;
+        charCounter.classList.add('too-long');
+    }
+}
+
+/* Determine Device Type */
+function getDeviceType() {
+    const ua = navigator.userAgent.toLowerCase();
+    if (/android/.test(ua)) return "Android";
+    if (/iphone|ipad|ipod/.test(ua)) return "iOS";
+    if (/windows/.test(ua)) return "Windows";
+    if (/macintosh|mac os x/.test(ua)) return "macOS";
+    return "Other";
+}
+
+/*************************************
+ *        Confession Feed
+ *************************************/
+
+/* Fetch Confessions */
+function fetchConfessions() {
+    fetch(CONFIG.confessionsURL)
+        .then(response => response.json())
+        .then(data => {
+            // Sort confessions by date descending
+            allConfessions = data.sort((a, b) => {
+                const dateA = parseDate(a.date);
+                const dateB = parseDate(b.date);
+                return dateB - dateA;
+            });
+            currentPage = 0;
+            confessionFeed.innerHTML = '';
+            loadMoreConfessions();
+        })
+        .catch(error => {
+            console.error('Error fetching confessions:', error);
+            confessionFeed.innerHTML = 'Failed to load confessions.';
+            loadMoreBtn.style.display = 'none';
+        });
+}
+
+/* Load More Confessions */
+function loadMoreConfessions() {
+    const start = currentPage * CONFIG.confessionsPerPage;
+    const end = start + CONFIG.confessionsPerPage;
+    const confessionsToLoad = allConfessions.slice(start, end);
+
+    confessionsToLoad.forEach(confession => {
+        const confessionDiv = document.createElement('div');
+        confessionDiv.classList.add('confession');
+
+        const timestampDiv = document.createElement('div');
+        timestampDiv.classList.add('timestamp');
+        timestampDiv.textContent = confession.date;
+
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('text');
+        textDiv.textContent = confession.text;
+
+        confessionDiv.appendChild(timestampDiv);
+        confessionDiv.appendChild(textDiv);
+
+        confessionFeed.appendChild(confessionDiv);
+    });
+
+    currentPage++;
+
+    if (currentPage * CONFIG.confessionsPerPage >= allConfessions.length) {
+        loadMoreBtn.style.display = 'none';
+    } else {
+        loadMoreBtn.style.display = 'block';
+    }
+}
+
+/* Parse Date String */
+function parseDate(dateStr) {
+    const [day, month, year] = dateStr.split('/');
+    return new Date(`${year}-${month}-${day}`);
+}
+
+/*************************************
  *      Matrix-like Background
  *************************************/
 const canvas = document.getElementById('matrixCanvas');
