@@ -7,14 +7,21 @@
 
 html, body {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #FFFFFF 0%, #FF0000 100%);
+    background: linear-gradient(135deg, #FF0000 0%, #000000 100%);
+    background-size: 400% 400%;
+    animation: gradientLoop 15s ease infinite;
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #fff;
-    /* overflow: hidden; */ /* Removed to enable scrolling */
+}
+
+@keyframes gradientLoop {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .title-bar {
@@ -27,13 +34,13 @@ html, body {
 .title-bar h1 {
     font-size: 2rem;
     font-weight: 600;
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
 }
 
 .title-bar .subtitle {
     font-size: 1rem;
     margin-top: 0.5rem;
-    color: #fff;
+    color: #FFCCCC;
 }
 
 @keyframes fadeInDown {
@@ -42,7 +49,7 @@ html, body {
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -52,8 +59,8 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    box-shadow: 0 0 30px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 30px rgba(255,0,0,0.5);
+    border: 1px solid rgba(255,0,0,0.2);
     animation: fadeIn 1s ease;
 }
 
@@ -66,7 +73,7 @@ html, body {
     font-weight: 600;
     font-size: 1.8rem;
     text-align: center;
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #FF0000, 0 0 40px #FF0000;
+    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000, 0 0 30px #FF0000, 0 0 40px #FF0000;
     animation: glow 2s infinite alternate ease-in-out;
     margin-bottom: 0.5rem;
 }
@@ -83,7 +90,7 @@ html, body {
     border-radius: 8px;
     font-size: 1rem;
     color: #fff;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,0,0,0.2);
     outline: none;
     height: 100px;
     resize: none;
@@ -93,7 +100,7 @@ html, body {
 }
 
 #messageInput::placeholder {
-    color: #ccc;
+    color: #FFCCCC;
 }
 
 #messageInput:focus {
@@ -103,8 +110,8 @@ html, body {
 #submitBtn {
     padding: 0.75rem 1rem;
     font-size: 1rem;
-    color: #fff;
-    background: linear-gradient(45deg, #FF0000, #FFFFFF);
+    color: #000000;
+    background: linear-gradient(45deg, #FF0000, #000000);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -152,7 +159,7 @@ html, body {
 .char-counter {
     font-size: 0.8rem;
     text-align: center;
-    color: #ccc;
+    color: #FFCCCC;
     margin-top: -10px;
 }
 
@@ -172,7 +179,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,0,0,0.2);
     padding: 0.5rem;
     border-radius: 20px;
     transition: background 0.3s ease;
@@ -180,7 +187,7 @@ html, body {
 }
 
 .linktree a:hover {
-    background: rgba(255,255,255,0.4);
+    background: rgba(255,0,0,0.4);
 }
 
 .linktree img {
@@ -190,7 +197,7 @@ html, body {
 
 /* Confession Feed Styles */
 .confession-feed-container {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 0, 0, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -198,8 +205,8 @@ html, body {
     width: 90%;
     max-width: 600px;
     margin: 2rem auto;
-    box-shadow: 0 0 30px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 30px rgba(255,0,0,0.5);
+    border: 1px solid rgba(255,0,0,0.2);
     animation: fadeIn 1s ease;
     color: #fff;
 }
@@ -208,22 +215,22 @@ html, body {
     font-weight: 600;
     font-size: 1.8rem;
     text-align: center;
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #FF0000, 0 0 40px #FF0000;
+    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000, 0 0 30px #FF0000, 0 0 40px #FF0000;
     animation: glow 2s infinite alternate ease-in-out;
     margin-bottom: 1rem;
 }
 
 .confession {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 10px;
     padding: 1rem;
     margin-bottom: 1rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(255,0,0,0.3);
 }
 
 .confession .timestamp {
     font-size: 0.8rem;
-    color: #ccc;
+    color: #FFCCCC;
     margin-bottom: 0.5rem;
 }
 
@@ -231,6 +238,27 @@ html, body {
     font-size: 1rem;
     line-height: 1.4;
     word-wrap: break-word;
+}
+
+.load-more-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #fff;
+    background: #FF0000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 1rem;
+}
+
+.load-more-btn:hover {
+    background: #cc0000;
+}
+
+.load-more-btn:disabled {
+    background: #800000;
+    cursor: not-allowed;
 }
 
 @media (max-width: 480px) {

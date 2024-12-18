@@ -17,7 +17,8 @@ const CONFIG = {
         { href: "https://facebook.com/yourprofile", icon: "https://via.placeholder.com/24x24?text=F", alt: "Facebook" },
         { href: "https://bsky.app/profile/yourprofile", icon: "https://via.placeholder.com/24x24?text=B", alt: "Bluesky" }
     ],
-    confessionsURL: "confessions.json" // URL to the confessions data file
+    confessionsURL: "confessions.json", // URL to the confessions data file
+    confessionsPerPage: 5 // Number of confessions to load per page
 };
 
 /*************************************
@@ -29,11 +30,14 @@ const feedback = document.getElementById('feedback');
 const charCounter = document.getElementById('charCounter');
 const linktreeContainer = document.getElementById('linktreeContainer');
 const confessionFeed = document.getElementById('confessionFeed'); // New element for the feed
+const loadMoreBtn = document.getElementById('loadMoreBtn'); // Load More button
 
 /*************************************
  *          INITIAL SETUP
  *************************************/
 let isCoolingDown = false;
+let allConfessions = [];
+let currentPage = 0;
 updateCharCounter();
 
 // Build linktree from config
@@ -58,11 +62,14 @@ submitBtn.addEventListener('click', submitMessage);
 messageInput.addEventListener('keydown', handleKeydown);
 messageInput.addEventListener('input', handleInput);
 messageInput.addEventListener('paste', handlePaste);
+loadMoreBtn.addEventListener('click', loadMoreConfessions);
 
 /*************************************
  *          FUNCTIONS
  *************************************/
-function handleResponse(data) {
+
+// Attach handleResponse to window for JSONP
+window.handleResponse = function(data) {
     submitBtn.disabled = false;
     messageInput.disabled = false;
 
@@ -185,34 +192,28 @@ function fetchConfessions() {
             return response.json();
         })
         .then(data => {
-            displayConfessions(data);
+            allConfessions = data.sort((a, b) => {
+                const dateA = parseDate(a.date);
+                const dateB = parseDate(b.date);
+                return dateB - dateA;
+            });
+            currentPage = 0;
+            confessionFeed.innerHTML = '';
+            loadMoreConfessions();
         })
         .catch(error => {
             console.error('Error fetching confessions:', error);
             confessionFeed.innerHTML = 'Failed to load confessions.';
+            loadMoreBtn.style.display = 'none';
         });
 }
 
-function displayConfessions(confessions) {
-    // Clear the current feed
-    confessionFeed.innerHTML = '';
+function loadMoreConfessions() {
+    const start = currentPage * CONFIG.confessionsPerPage;
+    const end = start + CONFIG.confessionsPerPage;
+    const confessionsToLoad = allConfessions.slice(start, end);
 
-    if (!Array.isArray(confessions) || confessions.length === 0) {
-        confessionFeed.innerHTML = 'No confessions yet. Be the first to confess!';
-        return;
-    }
-
-    // Sort confessions by date descending
-    confessions.sort((a, b) => {
-        const dateA = parseDate(a.date);
-        const dateB = parseDate(b.date);
-        return dateB - dateA;
-    });
-
-    // Display the top 10 recent confessions
-    const recentConfessions = confessions.slice(0, 10);
-
-    recentConfessions.forEach(confession => {
+    confessionsToLoad.forEach(confession => {
         const confessionDiv = document.createElement('div');
         confessionDiv.classList.add('confession');
 
@@ -229,6 +230,14 @@ function displayConfessions(confessions) {
 
         confessionFeed.appendChild(confessionDiv);
     });
+
+    currentPage++;
+
+    if (currentPage * CONFIG.confessionsPerPage >= allConfessions.length) {
+        loadMoreBtn.style.display = 'none';
+    } else {
+        loadMoreBtn.style.display = 'block';
+    }
 }
 
 function parseDate(dateStr) {
