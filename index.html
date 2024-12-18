@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Toronto FESS</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toronto Confessions</title>
+    
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
@@ -12,31 +12,36 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <canvas id="matrixCanvas"></canvas>    
-
+    
+    <!-- Matrix Background -->
+    <canvas id="matrixCanvas"></canvas>
+    
+    <!-- Title Bar -->
     <div class="title-bar">
-        <h1>Toronto FESS</h1>
-        <p class="subtitle">Submitting a confession gives us permission to publish it.</p>
+        <h1>Toronto Confessions</h1>
+        <p class="subtitle">Share your Toronto tales anonymously.</p>
     </div>
-
+    
+    ##### <!-- Confession Submission Container -->
     <div class="container">
-        <h2>Submit Your FESS</h2>
-        <textarea id="messageInput" placeholder="What do you have to confess?" wrap="soft"></textarea>
+        <h2>Submit Your Confession</h2>
+        <textarea id="messageInput" placeholder="What's your confession?" maxlength="280" wrap="soft"></textarea>
         <div class="char-counter" id="charCounter">280 characters remaining</div>
         <div id="feedback"></div>
         <button id="submitBtn">Submit</button>
-
+        
+        <!-- Social Links -->
         <div class="linktree" id="linktreeContainer"></div>
     </div>
-
-    <!-- Confession Feed Section -->
+    
+    ##### <!-- Confession Feed Section -->
     <div class="confession-feed-container">
         <h2>Recent Confessions</h2>
         <div id="confessionFeed">Loading confessions...</div>
         <button id="loadMoreBtn" class="load-more-btn">Load More</button>
     </div>
-
-    <!-- External JavaScript -->
+    
+    ##### <!-- External JavaScript -->
     <script src="scripts.js"></script>
 </body>
 </html>
