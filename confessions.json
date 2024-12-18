@@ -1,166 +1,246 @@
 [
     {
-        "date": "01/05/2024",
-        "text": "I accidentally boarded the wrong streetcar and ended up on the other side of the city. Spent an extra hour trying to find my way back."
-    },
-    {
-        "date": "02/05/2024",
-        "text": "I tried to impress a date by suggesting a rooftop bar, but it was under construction. We ended up at a dingy dive instead."
-    },
-    {
-        "date": "03/05/2024",
-        "text": "I spilled my coffee on the subway and had to apologize to a stranger who got soaked too."
-    },
-    {
-        "date": "04/05/2024",
-        "text": "I got stuck in an elevator at CN Tower with my ex. It was awkward to the max."
-    },
-    {
-        "date": "05/05/2024",
-        "text": "I forgot my umbrella on a rainy day and soaked myself walking from the subway station."
-    },
-    {
-        "date": "06/05/2024",
-        "text": "I accidentally waved at someone who wasn't actually waving at me. Now I feel so embarrassed."
-    },
-    {
-        "date": "07/05/2024",
-        "text": "I went to a Kensington Market date and realized I had spinach stuck in my teeth the entire time."
-    },
-    {
-        "date": "08/05/2024",
-        "text": "I got caught singing loudly to my favorite song on the GO train when the doors opened."
-    },
-    {
-        "date": "09/05/2024",
-        "text": "I wore white shoes to a Toronto Raptors game and they got ruined by spilled drinks. So disappointing."
-    },
-    {
-        "date": "10/05/2024",
-        "text": "I took a selfie with a beaver in High Park, but the beaver swiped my phone right off my hand."
-    },
-    {
-        "date": "11/05/2024",
-        "text": "I tried to skateboard along the PATH and ended up on the emergency stairs after a bad fall."
-    },
-    {
-        "date": "12/05/2024",
-        "text": "I accidentally sent a message complaining about a date to the date themselves. Now it's really awkward."
-    },
-    {
-        "date": "13/05/2024",
-        "text": "I got locked out of my apartment in the middle of winter and had to sleep on the couch for three days."
-    },
-    {
-        "date": "14/05/2024",
-        "text": "I tried to impress my friends with my street dance moves at a Queen Street party, but tripped and fell flat on my face."
-    },
-    {
-        "date": "15/05/2024",
-        "text": "I forgot to cancel my gym membership and ended up paying for it every month without using it."
-    },
-    {
-        "date": "16/05/2024",
-        "text": "I went to a live music show in Little Italy and spilled my drink on the band. They were not amused."
-    },
-    {
-        "date": "17/05/2024",
-        "text": "I tried to ride a bike on Lake Shore Boulevard and ended up stuck in traffic for an hour."
-    },
-    {
-        "date": "18/05/2024",
-        "text": "I attended a drag show in Queen West and accidentally called the performer by the wrong name the entire night."
-    },
-    {
-        "date": "19/05/2024",
-        "text": "I bought a map of Toronto to show my tourist friend, but I couldn't read it myself and we got lost for hours."
-    },
-    {
-        "date": "20/05/2024",
-        "text": "I went ice skating at Nathan Phillips Square and fell into the pond during a crowded session."
-    },
-    {
-        "date": "21/05/2024",
-        "text": "I tried to take a shortcut through a construction site and got stuck behind a pile of gravel for 20 minutes."
-    },
-    {
-        "date": "22/05/2024",
-        "text": "I ordered a fancy latte to impress my coworker, but the barista spelled my name wrong. We laughed it off, but it was still cringe."
-    },
-    {
-        "date": "23/05/2024",
-        "text": "I attempted to navigate through Yonge-Dundas Square on rollerblades and collided with a street performer."
-    },
-    {
-        "date": "24/05/2024",
-        "text": "I mistook a homeless person's belongings for mine in the morning rush and returned their stuff to the wrong location."
-    },
-    {
-        "date": "25/05/2024",
-        "text": "I tried to join a local Toronto trivia night, but knew nothing about the city's history. Got all the answers wrong."
-    },
-    {
-        "date": "26/05/2024",
-        "text": "I attended a Polar Bear Swim and realized I forgot to bring a towel. Had to run home immediately."
-    },
-    {
-        "date": "27/05/2024",
-        "text": "I got lost in the Toronto Islands and ended up spending the night camping alone."
-    },
-    {
-        "date": "28/05/2024",
-        "text": "I tried to pet a stray cat near the University of Toronto, but it scratched me fiercely. Now I'm banned from the area."
-    },
-    {
-        "date": "29/05/2024",
-        "text": "I went to a downtown art gallery opening and accidentally spilled red wine on an abstract painting."
-    },
-    {
-        "date": "30/05/2024",
-        "text": "I attempted to parallel park on Queen Street and ended up scraping my bumper against another car."
-    },
-    {
-        "date": "31/05/2024",
-        "text": "I thought I was entering a free sample station at St. Lawrence Market, but it was actually a high-end product demo."
-    },
-    {
         "date": "01/06/2024",
-        "text": "I flirted with the bartender all night, but they were just being friendly. Now I'm embarrassed every time I walk into that bar."
+        "text": "Thought it'd be funny to pretend to propose to my girlfriend with a Haribo ring. She said yes and got so excited before I could explain it was a joke. Panicked, and bought a real ring the same afternoon. Been married 14 years today. Never wanted to marry her in the first place."
     },
     {
         "date": "02/06/2024",
-        "text": "I tried to sneak into an exclusive club by pretending to be a guest, but the security caught me and I had to leave immediately."
+        "text": "I sent a flirty text to the wrong person and now I have to explain myself to my boss. Nothing like mixing business with pleasure... or disaster."
     },
     {
         "date": "03/06/2024",
-        "text": "I sent a flirty text to the wrong person and now I have to explain myself to my boss."
+        "text": "I tried to impress my friends by doing a backflip at a party. Landed face-first in the punch bowl. At least my friends are now calling me 'The Splash'."
     },
     {
         "date": "04/06/2024",
-        "text": "I accidentally flashed someone while doing a yoga pose in the park. It was mortifying!"
+        "text": "Accidentally flashed someone while attempting a yoga pose in the park. Turns out, downward dog is not the best place for upward exposure."
     },
     {
         "date": "05/06/2024",
-        "text": "I tried to impress a date by cooking dinner, but ended up setting off the smoke alarm. We laughed it off, but it was a disaster."
+        "text": "Tried to cook a romantic dinner for my date, but ended up setting off the smoke alarm. Our 'hot' night turned into a fire drill."
     },
     {
         "date": "06/06/2024",
-        "text": "I wore mismatched shoes to a date and didn't realize it until halfway through the evening."
+        "text": "Wore mismatched shoes to a date and didn't realize it until halfway through the evening. She still loves me... I think."
     },
     {
         "date": "07/06/2024",
-        "text": "I accidentally sent a selfie meant for my partner to my entire work group chat."
+        "text": "Bought a 'funny' costume for Halloween, but it was too revealing. Ended up being the center of attention for all the wrong reasons."
     },
     {
         "date": "08/06/2024",
-        "text": "I tried to serenade my crush with a guitar song, but I forgot the lyrics and ended up singing nonsense."
+        "text": "Tried to serenade my crush with a guitar song, but forgot the lyrics and ended up singing gibberish. She laughed and gave me a thumbs up."
     },
     {
         "date": "09/06/2024",
-        "text": "I spilled wine all over myself during a fancy dinner date. It was a sticky situation!"
+        "text": "Spilled wine all over myself during a fancy dinner date. It was a sticky situation!"
     },
     {
         "date": "10/06/2024",
-        "text": "I accidentally walked into the women's restroom while my phone was playing a loud romantic song."
+        "text": "Accidentally walked into the women's restroom while my phone was playing a loud romantic song. Stayed for a minute before realizing."
+    },
+    {
+        "date": "11/06/2024",
+        "text": "Tried to impress a date by juggling apples, but one slipped and hit me in the face. Smooth move."
+    },
+    {
+        "date": "12/06/2024",
+        "text": "Went skinny dipping in a public pool. Forgot it was crowded. Now I'm known as the 'Mystery Mermaid'."
+    },
+    {
+        "date": "13/06/2024",
+        "text": "Sent a selfie meant for my partner to my entire work group chat. Now everyone knows how much I love carbs."
+    },
+    {
+        "date": "14/06/2024",
+        "text": "Tried to sneak into an exclusive club by pretending to be a guest, but the security caught me and I had to leave immediately."
+    },
+    {
+        "date": "15/06/2024",
+        "text": "Bought a flashy outfit to impress my date, but the zipper broke halfway through dinner. We ended up laughing it off."
+    },
+    {
+        "date": "16/06/2024",
+        "text": "Attempted to flirt with the bartender all night, but they were just being friendly. Now I'm embarrassed every time I walk into that bar."
+    },
+    {
+        "date": "17/06/2024",
+        "text": "Tried to make a grand entrance at a party, tripped on the rug, and spilled my drink on the host. Smoothest move ever."
+    },
+    {
+        "date": "18/06/2024",
+        "text": "Accidentally sent a flirty GIF to my boss instead of my friend. Now I have to navigate the awkwardness at work."
+    },
+    {
+        "date": "19/06/2024",
+        "text": "Wore bright red pants to a job interview to stand out. They certainly stood out... from what I wanted."
+    },
+    {
+        "date": "20/06/2024",
+        "text": "Tried to impress my date with my dance moves, but ended up stepping on their toes. Still dancing through the awkwardness."
+    },
+    {
+        "date": "21/06/2024",
+        "text": "Bought a 'sexy' Halloween costume, but the outfit was too revealing. Spent the night hiding behind doorways."
+    },
+    {
+        "date": "22/06/2024",
+        "text": "Attempted to kiss my crush at a party, but both of us missed and bumped noses instead. Still sweet, but not as planned."
+    },
+    {
+        "date": "23/06/2024",
+        "text": "Wore a fake mustache to a costume party, but it kept falling off and revealing my identity. Mission failed."
+    },
+    {
+        "date": "24/06/2024",
+        "text": "Tried to surprise my partner with breakfast in bed, but the tray tipped over and the eggs went everywhere. Oops."
+    },
+    {
+        "date": "25/06/2024",
+        "text": "Sent a flirty text to the wrong person and now I have to explain myself to my boss. Nothing like mixing business with pleasure... or disaster."
+    },
+    {
+        "date": "26/06/2024",
+        "text": "Attempted to take a romantic walk on the beach, slipped on the sand, and face-planted into the water. Wet and embarrassed."
+    },
+    {
+        "date": "27/06/2024",
+        "text": "Wore a see-through shirt to a club to show off my new tattoos. Forgot it was too transparent. Had to cover up quickly."
+    },
+    {
+        "date": "28/06/2024",
+        "text": "Tried to flirt with someone at the gym, but tripped on the treadmill and face-planted. Still gym buddies now."
+    },
+    {
+        "date": "29/06/2024",
+        "text": "Thought it'd be funny to prank my date with fake lottery tickets. They got excited before realizing the truth. Lesson learned."
+    },
+    {
+        "date": "30/06/2024",
+        "text": "Bought a romantic playlist for dinner, but accidentally played heavy metal instead. Date thought it was a joke."
+    },
+    {
+        "date": "01/07/2024",
+        "text": "Tried to be smooth and offer my seat on the bus, but ended up sitting on their bag instead. Awkward."
+    },
+    {
+        "date": "02/07/2024",
+        "text": "Wore a loud Hawaiian shirt to a formal event to stand out. They certainly stood out... from the dress code."
+    },
+    {
+        "date": "03/07/2024",
+        "text": "Attempted to do a magic trick at a party, but it failed spectacularly. Still, everyone applauded my effort."
+    },
+    {
+        "date": "04/07/2024",
+        "text": "Tried to impress my crush by showing off my cooking skills, but the dish was a disaster. Now we have takeout."
+    },
+    {
+        "date": "05/07/2024",
+        "text": "Wore a cape to a casual dinner, thinking it would be fun. It was more of a distraction than a conversation starter."
+    },
+    {
+        "date": "06/07/2024",
+        "text": "Attempted to serenade my date with a song I wrote, but forgot the lyrics halfway through. We laughed it off."
+    },
+    {
+        "date": "07/07/2024",
+        "text": "Wore mismatched socks to a job interview to show my quirky side. They noticed and it was not a good first impression."
+    },
+    {
+        "date": "08/07/2024",
+        "text": "Tried to take a cute selfie with my pet, but they knocked over the camera. Still a funny memory."
+    },
+    {
+        "date": "09/07/2024",
+        "text": "Bought a fancy bottle of wine to impress my date, but spilled it as soon as we opened it. Cheers to bad luck."
+    },
+    {
+        "date": "10/07/2024",
+        "text": "Tried to flirt by offering my jacket on a chilly night, but realized halfway through it was my own jacket. Still chilly."
+    },
+    {
+        "date": "11/07/2024",
+        "text": "Attempted to dance salsa at a party, but stepped on someone's foot instead. Now I'm known as the 'Foot Stealer'."
+    },
+    {
+        "date": "12/07/2024",
+        "text": "Wore a funny hat to a date to break the ice, but it was too funny and overshadowed the conversation."
+    },
+    {
+        "date": "13/07/2024",
+        "text": "Tried to impress by doing a backflip on a trampoline, but landed awkwardly and had to sit out the rest of the party."
+    },
+    {
+        "date": "14/07/2024",
+        "text": "Sent a romantic message to my crush, but autocorrect changed it to something awkward. Now I have to explain the typo."
+    },
+    {
+        "date": "15/07/2024",
+        "text": "Wore bright red lipstick for the first time, but smudged it all over my face during a romantic dinner."
+    },
+    {
+        "date": "16/07/2024",
+        "text": "Tried to impress my date with a cocktail I made, but it turned out way too strong. They were not impressed."
+    },
+    {
+        "date": "17/07/2024",
+        "text": "Bought a surprise gift for my partner, but it was something they didn't like at all. Had to quickly think of a new gift."
+    },
+    {
+        "date": "18/07/2024",
+        "text": "Attempted to do a romantic picnic, but it rained all day. Still enjoyed the soggy sandwiches together."
+    },
+    {
+        "date": "19/07/2024",
+        "text": "Wore a goofy tie to a formal event to stand out, but it made me the center of attention in a way I didn't expect."
+    },
+    {
+        "date": "20/07/2024",
+        "text": "Tried to cook a romantic dinner and set off the fire alarm. We ended up ordering pizza and laughing about it."
+    },
+    {
+        "date": "21/07/2024",
+        "text": "Bought matching outfits with my date to show our connection, but the colors clashed terribly. We still love each other though."
+    },
+    {
+        "date": "22/07/2024",
+        "text": "Tried to surprise my partner with breakfast in bed, but dropped the tray and broke several dishes. Oops."
+    },
+    {
+        "date": "23/07/2024",
+        "text": "Wore a fancy watch to impress my date, but it was so shiny it reflected the lights and blinded them occasionally."
+    },
+    {
+        "date": "24/07/2024",
+        "text": "Attempted to juggle wine glasses at a party to impress my friends, but ended up knocking one over. Now I'm known as the 'Juggler of Spills'."
+    },
+    {
+        "date": "25/07/2024",
+        "text": "Tried to be smooth by offering my jacket to a stranger, but realized too late it was my only jacket. They stayed warm though."
+    },
+    {
+        "date": "26/07/2024",
+        "text": "Bought a bouquet of flowers for my date, but they were wilted by the time I handed them over. Still appreciated the gesture."
+    },
+    {
+        "date": "27/07/2024",
+        "text": "Tried to impress by showing off my cooking skills, but the meal was burnt. We ordered takeout and laughed about it."
+    },
+    {
+        "date": "28/07/2024",
+        "text": "Wore a flashy belt to a dinner date to show my style, but it was too flashy and distracted from the conversation."
+    },
+    {
+        "date": "29/07/2024",
+        "text": "Attempted to do a romantic dance with my partner, but stepped on their foot repeatedly. Still danced, but more carefully."
+    },
+    {
+        "date": "30/07/2024",
+        "text": "Bought a romantic playlist for dinner, but accidentally played heavy metal instead. Date thought it was a joke."
+    },
+    {
+        "date": "31/07/2024",
+        "text": "Tried to write a heartfelt poem for my partner, but it came out as a confusing mess. They appreciated the effort though."
     }
 ]
