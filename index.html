@@ -34,10 +34,13 @@
         <div id="confessionFeed">Loading confessions...</div>
     </div>
 
-    <!-- Fireworks Library -->
-    <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.0.7/dist/fireworks.min.js"></script>
+    <!-- Fireworks Library as Module -->
+    <script type="module">
+        import { Fireworks } from 'https://cdn.jsdelivr.net/npm/fireworks-js@2.0.7/dist/fireworks.module.js';
+        window.Fireworks = Fireworks; // Make Fireworks available globally
+    </script>
 
-    <!-- External JavaScript -->
-    <script src="scripts.js"></script>
+    <!-- External JavaScript as Module -->
+    <script type="module" src="scripts.js"></script>
 </body>
 </html>

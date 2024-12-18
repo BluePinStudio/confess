@@ -8,7 +8,7 @@ const CONFIG = {
     cooldownTime: 10000,
     successMessage: "Message submitted successfully!",
     shortMessageError: "Your entry is too short! Min 10 chars.",
-    longMessageError: "Your entry is too long! Max 250 chars.",
+    longMessageError: "Too long by {x} characters.",
     waitMessage: "Please wait before submitting again.",
     submittingMessage: "Submitting...",
     linktreeLinks: [
@@ -97,8 +97,9 @@ function submitMessage() {
     }
 
     if (userText.length > CONFIG.maxChars) {
+        const excess = userText.length - CONFIG.maxChars;
         feedback.style.color = 'red';
-        feedback.textContent = `Too long by ${userText.length - CONFIG.maxChars} characters`;
+        feedback.textContent = CONFIG.longMessageError.replace('{x}', excess);
         charCounter.classList.add('too-long');
         return;
     } else {
@@ -252,7 +253,6 @@ function triggerFireworks() {
         autoresize: true,
         opacity: 0.8,
         explosionMax: 5,
-        autoresize: true,
         brightness: {
             min: 50,
             max: 80
