@@ -193,6 +193,14 @@ html, body {
     padding: 1rem;
     margin-bottom: 1rem;
     box-shadow: 0 0 10px rgba(255,0,0,0.3);
+    transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+
+.confession.promoted {
+    background: rgba(255, 215, 0, 0.3); /* Golden background */
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); /* Enhanced glow */
+    border: 2px dashed rgba(255, 215, 0, 0.8); /* Dashed border for emphasis */
+    animation: sparkle 2s infinite;
 }
 
 .confession .timestamp {
@@ -240,12 +248,31 @@ html, body {
     pointer-events: none; /* Allow clicks through the canvas */
 }
 
+/* ##### Sparkle Animation for Promoted Confessions ##### */
+@keyframes sparkle {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+}
+
 /* ##### Responsive Styles ##### */
 @media (max-width: 768px) {
-    /* ##### Apply Gradient Background for Mobile ##### */
+    /* ##### Apply Diagonal Gradient Background for Mobile ##### */
     html, body {
-        background: linear-gradient(135deg, #FF0000, #000000);
+        background: linear-gradient(135deg, #800000, #000000); /* Darker gradient */
     }
+    
+    /* Alternatively, for a diagonal gradient:
+    html, body {
+        background: linear-gradient(135deg, #FF0000, #800000, #000000);
+    }
+    */
     
     .container, .confession-feed-container {
         padding: 1.5rem;

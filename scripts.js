@@ -2,7 +2,7 @@
  *           CONFIGURATION
  *************************************/
 const CONFIG = {
-    endpointURL: "https://script.google.com/macros/s/AKfycbzWBofHsiPZ8--iZ84lkiawx5Wpuliw7YLkcvQIOz9eoOoQmtoDrAkAl_htWJWvbGQSqA/exec",
+    endpointURL: "https://script.google.com/macros/s/AKfycbxQ1bHA--m108-seLbSOpgFIRAWSgpS8zDbqgwM5xGLASy3ig03gQO6l5u4haAKEPhREA/exec",
     minChars: 10,
     maxChars: 280,
     cooldownTime: 10000, // 10 seconds
@@ -69,6 +69,19 @@ loadMoreBtn.addEventListener('click', loadMoreConfessions);
  *          FUNCTIONS
  *************************************/
 
+/* Escape Special Characters */
+function escapeSpecialChars(str) {
+    return str
+        .replace(/\\/g, '\\\\')   // Escape backslashes
+        .replace(/"/g, '\\"')     // Escape double quotes
+        .replace(/'/g, "\\'")     // Escape single quotes
+        .replace(/\n/g, '\\n')    // Escape newlines
+        .replace(/\r/g, '\\r')    // Escape carriage returns
+        .replace(/</g, '&lt;')    // Escape less-than
+        .replace(/>/g, '&gt;')    // Escape greater-than
+        .replace(/&/g, '&amp;');  // Escape ampersand
+}
+
 /* Handle JSONP Response */
 window.handleResponse = function(data) {
     submitBtn.disabled = false;
@@ -96,7 +109,7 @@ function submitMessage() {
         return;
     }
 
-    const userText = messageInput.value.trim();
+    let userText = messageInput.value.trim();
 
     if (userText.length < CONFIG.minChars) {
         feedback.style.color = '#FF0000';
@@ -113,6 +126,9 @@ function submitMessage() {
     } else {
         charCounter.classList.remove('too-long');
     }
+
+    // Sanitize the user input
+    userText = escapeSpecialChars(userText);
 
     feedback.style.color = '#fff';
     feedback.textContent = CONFIG.submittingMessage;
@@ -227,6 +243,11 @@ function loadMoreConfessions() {
         const confessionDiv = document.createElement('div');
         confessionDiv.classList.add('confession');
 
+        // Check if the confession is promoted
+        if (confession.promoted) {
+            confessionDiv.classList.add('promoted');
+        }
+
         const timestampDiv = document.createElement('div');
         timestampDiv.classList.add('timestamp');
         timestampDiv.textContent = confession.date;
@@ -253,6 +274,10 @@ function loadMoreConfessions() {
 /* Parse Date String */
 function parseDate(dateStr) {
     const [day, month, year] = dateStr.split('/');
+    // Handle special dates like "Sponsor Announcement"
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        return new Date(); // Assign current date for sorting purposes
+    }
     return new Date(`${year}-${month}-${day}`);
 }
 
