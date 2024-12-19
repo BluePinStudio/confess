@@ -2,7 +2,7 @@
  *           CONFIGURATION
  *************************************/
 const CONFIG = {
-    endpointURL: "https://script.google.com/macros/s/AKfycbzzFcpGoqkm1K1r-ORtvCaazitz86HQRCTVZDV1bMF4A9FANrMDwflemcB2cmMxjGkvMg/exec",
+    endpointURL: "https://script.google.com/macros/s/AKfycbx3a91CRcZH-7yuR607hO9JXGqo6LpVR-MfmFAoDdUzsKtE_LgI0qQ0LRuYXlHPPJz6-g/exec",
     minChars: 10,
     maxChars: 280,
     cooldownTime: 10000, // 10 seconds
@@ -68,6 +68,37 @@ loadMoreBtn.addEventListener('click', loadMoreConfessions);
 /*************************************
  *          FUNCTIONS
  *************************************/
+
+/* Escape Special Characters */
+function escapeSpecialChars(str) {
+    return str
+        .replace(/\\/g, '\\\\')   // Escape backslashes
+        .replace(/"/g, '\\"')     // Escape double quotes
+        .replace(/'/g, "\\'")     // Escape single quotes
+        .replace(/\n/g, '\\n')    // Escape newlines
+        .replace(/\r/g, '\\r')    // Escape carriage returns
+        .replace(/</g, '&lt;')    // Escape less-than
+        .replace(/>/g, '&gt;')    // Escape greater-than
+        .replace(/&/g, '&amp;');  // Escape ampersand
+}
+
+/* Handle JSONP Response */
+window.handleResponse = function(data) {
+    submitBtn.disabled = false;
+
+    if (data.status === "success") {
+        feedback.style.color = '#00FFAA';
+        feedback.textContent = CONFIG.successMessage;
+        messageInput.value = '';
+        updateCharCounter();
+        startCooldown();
+        fetchConfessions(); // Refresh the confession feed after submission
+    } else {
+        // Server reported an error
+        feedback.style.color = '#FF0000';
+        feedback.textContent = data.error || "Server error.";
+    }
+}
 
 /* Generate or Retrieve userId */
 function getUserId() {
@@ -139,9 +170,6 @@ function submitMessage() {
             // Server reported an error
             feedback.style.color = '#FF0000';
             feedback.textContent = data.error || "Server error.";
-            if (data.error === "Rate limit exceeded. Please wait before submitting again.") {
-                startCooldown();
-            }
         }
         // Clean up: remove the script tag and callback function
         document.body.removeChild(script);
@@ -165,8 +193,6 @@ function submitMessage() {
 function startCooldown() {
     isCoolingDown = true;
     submitBtn.disabled = true;
-    feedback.style.color = '#FF0000';
-    feedback.textContent = CONFIG.waitMessage;
     submitBtn.title = CONFIG.waitMessage; // Set tooltip
 
     setTimeout(() => {
@@ -177,20 +203,7 @@ function startCooldown() {
     }, CONFIG.cooldownTime);
 }
 
-/* Escape Special Characters */
-function escapeSpecialChars(str) {
-    return str
-        .replace(/\\/g, '\\\\')   // Escape backslashes
-        .replace(/"/g, '\\"')     // Escape double quotes
-        .replace(/'/g, "\\'")     // Escape single quotes
-        .replace(/\n/g, '\\n')    // Escape newlines
-        .replace(/\r/g, '\\r')    // Escape carriage returns
-        .replace(/</g, '&lt;')    // Escape less-than
-        .replace(/>/g, '&gt;')    // Escape greater-than
-        .replace(/&/g, '&amp;');  // Escape ampersand
-}
-
-/* Handle Keydown Event */
+/* Handle Enter Key */
 function handleKeydown(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -246,10 +259,10 @@ function fetchConfessions() {
     fetch(CONFIG.confessionsURL)
         .then(response => response.json())
         .then(data => {
-            // Sort confessions by timestamp descending
+            // Sort confessions by date descending
             allConfessions = data.sort((a, b) => {
-                const dateA = new Date(a.timestamp);
-                const dateB = new Date(b.timestamp);
+                const dateA = parseDate(a.date);
+                const dateB = parseDate(b.date);
                 return dateB - dateA;
             });
             currentPage = 0;
@@ -278,19 +291,14 @@ function loadMoreConfessions() {
             confessionDiv.classList.add('promoted');
         }
 
-        const deviceDiv = document.createElement('div');
-        deviceDiv.classList.add('device');
-        deviceDiv.textContent = confession.device;
-
         const timestampDiv = document.createElement('div');
         timestampDiv.classList.add('timestamp');
-        timestampDiv.textContent = new Date(confession.timestamp).toLocaleString();
+        timestampDiv.textContent = confession.date;
 
         const textDiv = document.createElement('div');
         textDiv.classList.add('text');
-        textDiv.textContent = confession.message;
+        textDiv.textContent = confession.text;
 
-        confessionDiv.appendChild(deviceDiv);
         confessionDiv.appendChild(timestampDiv);
         confessionDiv.appendChild(textDiv);
 
