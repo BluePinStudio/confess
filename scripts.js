@@ -178,11 +178,11 @@ function submitMessage() {
 
     // Create a script tag for JSONP
     const script = document.createElement('script');
-    script.src = `${CONFIG.endpointURL}?callback=${callbackName}&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}&userId=${encodeURIComponent(userId)}`;
+    script.src = `${CONFIG.endpointURL}?action=submit&callback=${callbackName}&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}&userId=${encodeURIComponent(userId)}`;
     script.onerror = function() {
         submitBtn.disabled = false;
         feedback.style.color = '#FF0000';
-        feedback.textContent = "An error occurred while submitting your confession.";
+        feedback.textContent = "Unable to connect to the server. Please try again later.";
         document.body.removeChild(script);
         delete window[callbackName];
     };
