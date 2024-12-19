@@ -96,7 +96,7 @@ html, body {
 }
 
 .btn {
-    background-color: #b30000; /* Dark Red Background */
+    background-color: #800000; /* Dark Red Background */
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 12px 24px; /* Padding */
@@ -111,7 +111,7 @@ html, body {
 }
 
 .btn:hover {
-    background-color: #800000; /* Darker Red on Hover */
+    background-color: #660000; /* Darker Red on Hover */
 }
 
 .btn:active {
