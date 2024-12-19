@@ -2,7 +2,7 @@
  *           CONFIGURATION
  *************************************/
 const CONFIG = {
-    endpointURL: "https://script.google.com/macros/s/AKfycbzltPw5lpY4TXlOaeS5hhpPprzs0snk4YnAJ-QB3TGKKyLFPWmXIixMFRZeid6NS5F94w/exec",
+    endpointURL: "https://script.google.com/macros/s/AKfycbx6w-2PgY0kGoBfP0PQp9nQVXww2yGBbZpM_0LOefeNm-GYaVU_2EYPA7TAnxFo4POf/exec",
     minChars: 10,
     maxChars: 280,
     cooldownTime: 10000, // 10 seconds
