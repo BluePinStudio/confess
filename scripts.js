@@ -2,7 +2,7 @@
  *           CONFIGURATION
  *************************************/
 const CONFIG = {
-    endpointURL: "https://script.google.com/macros/s/AKfycbx6w-2PgY0kGoBfP0PQp9nQVXww2yGBbZpM_0LOefeNm-GYaVU_2EYPA7TAnxFo4POf/exec",
+    endpointURL: "https://script.google.com/macros/s/AKfycbzAYhZmywxroP2VbSQlj090SkOwHJWPKYJPa5yjSZheqL76n4iIU10f1hb6Dohhs1SdOw/exec",
     minChars: 10,
     maxChars: 280,
     cooldownTime: 10000, // 10 seconds
@@ -142,9 +142,9 @@ function submitMessage() {
 
     // Make a POST request using fetch
     fetch(CONFIG.endpointURL, {
-        method: 'GET', // Change to 'POST' if you update the server to handle POST
+        method: 'POST', // Use POST method
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' // Specify JSON content
         },
         body: JSON.stringify({
             text: userText,
