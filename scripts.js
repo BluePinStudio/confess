@@ -2,7 +2,7 @@
  *           CONFIGURATION
  *************************************/
 const CONFIG = {
-    endpointURL: "https://script.google.com/macros/s/AKfycbzg3MrxEBSWkno7445TWxqckKKVJQj6ul5d3LCgCyNutWVqhcbdL0YIy63d2V7xtOUWpw/exec",
+    endpointURL: "https://script.google.com/macros/s/AKfycbz9XtXsKx4LWr8kRLHzbvA0ohh4ezWCZ2z5UblrAfqCdQoWC9H6osl3-TUmXEFmDd_jRQ/exec",
     minChars: 10,
     maxChars: 280,
     cooldownTime: 10000, // 10 seconds
@@ -100,6 +100,16 @@ window.handleResponse = function(data) {
     }
 }
 
+/* Generate or Retrieve userId */
+function getUserId() {
+    let userId = localStorage.getItem('userId');
+    if (!userId) {
+        userId = 'user_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('userId', userId);
+    }
+    return userId;
+}
+
 /* Submit Confession */
 function submitMessage() {
     if (isCoolingDown) {
@@ -140,6 +150,9 @@ function submitMessage() {
     // Set tooltip to submitting
     submitBtn.title = CONFIG.submittingMessage;
 
+    // Retrieve or generate userId
+    const userId = getUserId();
+
     // Generate a unique callback function name
     const callbackName = 'handleResponse_' + Date.now();
 
@@ -165,7 +178,7 @@ function submitMessage() {
 
     // Create a script tag for JSONP
     const script = document.createElement('script');
-    script.src = `${CONFIG.endpointURL}?callback=${callbackName}&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}`;
+    script.src = `${CONFIG.endpointURL}?callback=${callbackName}&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}&userId=${encodeURIComponent(userId)}`;
     script.onerror = function() {
         submitBtn.disabled = false;
         feedback.style.color = '#FF0000';
