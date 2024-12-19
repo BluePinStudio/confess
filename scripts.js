@@ -2,7 +2,7 @@
  *           CONFIGURATION
  *************************************/
 const CONFIG = {
-    endpointURL: "https://script.google.com/macros/s/AKfycbyF2m2qzL-eRXG55xYlRo9Fnbodkxc5JvEOkIPT0r2oP1A6q_FkKLVzjIHM99yqqRTZ9A/exec",
+    endpointURL: "https://script.google.com/macros/s/AKfycbz72fWdAo_Qt9i1ZRnKYhpfWeEzOtyeNgIoJdr_5wGh5JFX9E3mTd_lnekNylwO8qR08A/exec",
     minChars: 10,
     maxChars: 280,
     cooldownTime: 10000, // 10 seconds
@@ -150,7 +150,7 @@ function submitMessage() {
 
     // Create a script tag for JSONP
     const script = document.createElement('script');
-    script.src = `${CONFIG.endpointURL}?action=submit&callback=${callbackName}&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}&userId=${encodeURIComponent(userId)}`;
+    script.src = `${CONFIG.endpointURL}?callback=${callbackName}&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}&userId=${encodeURIComponent(userId)}`;
     script.onerror = function() {
         submitBtn.disabled = false;
         feedback.style.color = '#FF0000';
@@ -243,34 +243,24 @@ function getDeviceType() {
 
 /* Fetch Confessions */
 function fetchConfessions() {
-    const callbackName = 'handleFetchResponse_' + Date.now();
-
-    window[callbackName] = function(data) {
-        if (data.status === "success") {
+    fetch(CONFIG.confessionsURL)
+        .then(response => response.json())
+        .then(data => {
             // Sort confessions by timestamp descending
-            allConfessions = data.confessions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            allConfessions = data.sort((a, b) => {
+                const dateA = new Date(a.timestamp);
+                const dateB = new Date(b.timestamp);
+                return dateB - dateA;
+            });
             currentPage = 0;
             confessionFeed.innerHTML = '';
             loadMoreConfessions();
-        } else {
-            console.error('Error fetching confessions:', data.error);
+        })
+        .catch(error => {
+            console.error('Error fetching confessions:', error);
             confessionFeed.innerHTML = 'Failed to load confessions.';
             loadMoreBtn.style.display = 'none';
-        }
-        // Clean up
-        delete window[callbackName];
-    }
-
-    // Create a script tag for JSONP
-    const script = document.createElement('script');
-    script.src = `${CONFIG.endpointURL}?action=fetch&callback=${callbackName}`;
-    script.onerror = function() {
-        console.error('Error loading fetch script.');
-        confessionFeed.innerHTML = 'Failed to load confessions.';
-        loadMoreBtn.style.display = 'none';
-        delete window[callbackName];
-    };
-    document.body.appendChild(script);
+        });
 }
 
 /* Load More Confessions */
