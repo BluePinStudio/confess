@@ -96,7 +96,7 @@ html, body {
 }
 
 .btn {
-    background-color: #4CAF50; /* Green background */
+    background-color: #b30000; /* Dark Red Background */
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 12px 24px; /* Padding */
@@ -107,11 +107,15 @@ html, body {
     margin: 4px 2px; /* Margin */
     cursor: pointer; /* Pointer cursor */
     border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    transition: background-color 0.3s ease, transform 0.1s ease; /* Smooth transition */
 }
 
 .btn:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color: #800000; /* Darker Red on Hover */
+}
+
+.btn:active {
+    transform: scale(0.95); /* Slightly Shrink on Click */
 }
 
 #feedback {
