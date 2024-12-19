@@ -140,10 +140,39 @@ function submitMessage() {
     // Set tooltip to submitting
     submitBtn.title = CONFIG.submittingMessage;
 
-    // Create a script tag for JSONP
-    const script = document.createElement('script');
-    script.src = `${CONFIG.endpointURL}?callback=handleResponse&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}`;
-    document.body.appendChild(script);
+    // Make a POST request using fetch
+    fetch(CONFIG.endpointURL, {
+        method: 'GET', // Change to 'POST' if you update the server to handle POST
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            text: userText,
+            device: device
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        submitBtn.disabled = false;
+        if (data.status === "success") {
+            feedback.style.color = '#00FFAA';
+            feedback.textContent = CONFIG.successMessage;
+            messageInput.value = '';
+            updateCharCounter();
+            startCooldown();
+            fetchConfessions(); // Refresh the confession feed after submission
+        } else {
+            // Server reported an error
+            feedback.style.color = '#FF0000';
+            feedback.textContent = data.error || "Server error.";
+        }
+    })
+    .catch(error => {
+        console.error('Error submitting confession:', error);
+        feedback.style.color = '#FF0000';
+        feedback.textContent = "An error occurred while submitting your confession.";
+        submitBtn.disabled = false;
+    });
 }
 
 /* Start Cooldown */
