@@ -284,7 +284,10 @@ fetch(CONFIG.confessionsURL)
             const confessionWords = confession.text.split(' ').filter(word => word.length > 3);
             words = words.concat(confessionWords);
         });
-        startMatrix();
+        // Check if not on mobile before starting Matrix
+        if (!isMobileDevice()) {
+            startMatrix();
+        }
     })
     .catch(error => console.error('Error loading confessions for Matrix:', error));
 
@@ -308,9 +311,15 @@ function adjustColumns() {
 }
 window.addEventListener('resize', adjustColumns);
 
+/* Check if Device is Mobile */
+function isMobileDevice() {
+    const ua = navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod|android/.test(ua);
+}
+
 /* Start Matrix animation */
 function startMatrix() {
-    setInterval(drawMatrix, 65); // Slowed down by 30% from 50ms to 65ms
+    setInterval(drawMatrix, 85); // Slowed down by 30% from 65ms to 85ms
 }
 
 /* Draw Matrix frame */

@@ -18,13 +18,16 @@
     
     <!-- ##### Title Bar ##### -->
     <div class="title-bar">
-        <h1>Toronto Confessions</h1>
-        <p class="subtitle">Share your Toronto tales anonymously.</p>
+        <img src="https://via.placeholder.com/100x100?text=Logo" alt="Logo" class="logo">
     </div>
     
     <!-- ##### Confession Submission Container ##### -->
     <div class="container">
-        <h2>Submit Your Confession</h2>
+        <!-- ##### Title and Subtitle Moved Inside ##### -->
+        <div class="submission-header">
+            <h1>Toronto Confessions</h1>
+            <p class="subtitle">Share your Toronto tales anonymously.</p>
+        </div>
         <textarea id="messageInput" placeholder="What's your confession?" maxlength="280" wrap="soft"></textarea>
         <div class="char-counter" id="charCounter">280 characters remaining</div>
         <div id="feedback"></div>

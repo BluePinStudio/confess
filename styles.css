@@ -9,7 +9,7 @@ html, body {
     width: 100%;
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    background: #000; /* Black background for Matrix effect */
+    background: #000; /* Default Black background for Matrix effect */
     color: #fff;
     /* Removed overflow: hidden to allow scrollbars */
     overflow-y: auto;
@@ -19,22 +19,18 @@ html, body {
 /* ##### Title Bar Styles ##### */
 .title-bar {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
     z-index: 2;
     position: relative;
 }
 
-.title-bar h1 {
-    font-size: 2.5rem;
-    color: #FF0000; /* Red color */
-    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
-}
-
-.title-bar .subtitle {
-    font-size: 1rem;
-    color: #FFCCCC;
-    margin-top: 0.5rem;
+.title-bar .logo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
 /* ##### Confession Submission Container Styles ##### */
@@ -53,11 +49,21 @@ html, body {
     position: relative;
 }
 
-.container h2 {
-    font-size: 1.8rem;
-    color: #FF0000;
-    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
+.submission-header {
+    text-align: center;
     margin-bottom: 1rem;
+}
+
+.submission-header h1 {
+    font-size: 2rem;
+    color: #FF0000; /* Red color */
+    text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
+}
+
+.submission-header .subtitle {
+    font-size: 1rem;
+    color: #FFCCCC;
+    margin-top: 0.5rem;
 }
 
 #messageInput {
@@ -236,16 +242,21 @@ html, body {
 
 /* ##### Responsive Styles ##### */
 @media (max-width: 768px) {
+    /* ##### Apply Gradient Background for Mobile ##### */
+    html, body {
+        background: linear-gradient(135deg, #FF0000, #000000);
+    }
+    
     .container, .confession-feed-container {
         padding: 1.5rem;
     }
     
-    .title-bar h1 {
-        font-size: 2rem;
+    .submission-header h1 {
+        font-size: 1.8rem;
     }
     
-    .container h2, .confession-feed-container h2 {
-        font-size: 1.5rem;
+    .submission-header .subtitle {
+        font-size: 1rem;
     }
     
     #messageInput {
@@ -254,5 +265,10 @@ html, body {
     
     .load-more-btn {
         padding: 0.5rem 1rem;
+    }
+    
+    /* ##### Hide Matrix Canvas on Mobile ##### */
+    #matrixCanvas {
+        display: none;
     }
 }
