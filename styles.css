@@ -196,12 +196,13 @@ html, body {
     transition: background 0.5s ease, box-shadow 0.5s ease;
 }
 
-.confession.promoted {
-    background: rgba(255, 215, 0, 0.3); /* Golden background */
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); /* Enhanced glow */
-    border: 2px dashed rgba(255, 215, 0, 0.8); /* Dashed border for emphasis */
-    animation: sparkle 2s infinite;
+.sponsored-message {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #FFD700; /* Golden color for sponsored messages */
+    margin-bottom: 0.5rem;
 }
+
 
 .confession .timestamp {
     font-size: 0.8rem;
