@@ -216,6 +216,7 @@ function fetchConfessions() {
     fetch(CONFIG.confessionsURL)
         .then(response => response.json())
         .then(data => {
+            // Sort confessions by date descending
             allConfessions = data.sort((a, b) => {
                 const dateA = parseDate(a.date);
                 const dateB = parseDate(b.date);
@@ -242,12 +243,9 @@ function loadMoreConfessions() {
         const confessionDiv = document.createElement('div');
         confessionDiv.classList.add('confession');
 
+        // Check if the confession is promoted
         if (confession.promoted) {
             confessionDiv.classList.add('promoted');
-            const sponsoredMessage = document.createElement('div');
-            sponsoredMessage.classList.add('sponsored-message');
-            sponsoredMessage.textContent = confession.sponsoredMessage || "Sponsored Confession";
-            confessionDiv.appendChild(sponsoredMessage);
         }
 
         const timestampDiv = document.createElement('div');

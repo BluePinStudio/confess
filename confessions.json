@@ -11,13 +11,42 @@
     },
     {
         "date": "03/08/2024",
+        "text": "Thought it would be fun to join a spontaneous flash mob in Yonge-Dundas Square. Ended up stepping on two people’s feet and running away before anyone noticed.",
+        "promoted": false
+    },
+    {
+        "date": "Sponsor Announcement",
         "text": "We're excited to announce our new partnership with the Toronto Raptors! Stay tuned for exclusive content and giveaways.",
-        "promoted": true,
-        "sponsoredMessage": "Presented by Toronto Raptors"
+        "promoted": true
+    },
+    {
+        "date": "04/08/2024",
+        "text": "Admitted to my friends that I still binge-watch shows on Netflix instead of exploring Toronto’s vibrant theater scene. They were not impressed.",
+        "promoted": false
+    },
+    {
+        "date": "05/08/2024",
+        "text": "Went to Kensington Market dressed as a tourist to take selfies. Got lost among the locals and had to ask for directions in broken French.",
+        "promoted": false
+    },
+    {
+        "date": "06/08/2024",
+        "text": "Tried to cook poutine at home and ended up burning the gravy. My kitchen smelled like a deep fryer disaster for hours.",
+        "promoted": false
+    },
+    {
+        "date": "Sponsor Announcement",
+        "text": "Join us for an exclusive event at the CN Tower this weekend! Limited spots available. Book now!",
+        "promoted": true
     },
     {
         "date": "07/08/2024",
         "text": "I confessed to my coworker that I’ve been secretly taking Toronto Raptors merchandise to bed every night. They laughed but now I can’t find my stuff.",
+        "promoted": false
+    },
+    {
+        "date": "08/08/2024",
+        "text": "Went to a Drake concert and accidentally spilled my drink on the stage. Drake noticed and gave me a nod, but my embarrassment is unmatched.",
         "promoted": false
     }
 ]
