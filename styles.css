@@ -11,7 +11,6 @@ html, body {
     font-family: 'Poppins', sans-serif;
     background: #000; /* Default Black background for Matrix effect */
     color: #fff;
-    /* Removed overflow: hidden to allow scrollbars */
     overflow-y: auto;
     position: relative;
 }
@@ -56,7 +55,7 @@ html, body {
 
 .submission-header h1 {
     font-size: 2rem;
-    color: #FF0000; /* Red color */
+    color: #FF0000;
     text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
 }
 
@@ -92,7 +91,7 @@ html, body {
 
 .button-container {
     display: flex;
-    justify-content: center; /* Center align the submit button */
+    justify-content: center;
 }
 
 #submitBtn {
@@ -203,100 +202,20 @@ html, body {
     margin-bottom: 0.5rem;
 }
 
+.announcement {
+    background: linear-gradient(45deg, rgba(255, 223, 0, 0.8), rgba(255, 215, 0, 0.6));
+    color: #000;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    animation: sparkle 3s infinite alternate;
+}
 
-.confession .timestamp {
-    font-size: 0.8rem;
-    color: #FFCCCC;
+.announcement .sponsored-message {
+    font-size: 1.2rem;
+    font-weight: bold;
     margin-bottom: 0.5rem;
-}
-
-.confession .text {
-    font-size: 1rem;
-    line-height: 1.4;
-    word-wrap: break-word;
-}
-
-.load-more-btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    color: #fff;
-    background: #FF0000;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    display: block;
-    margin: 1rem auto 0 auto;
-}
-
-.load-more-btn:hover {
-    background: #cc0000;
-}
-
-.load-more-btn:disabled {
-    background: #800000;
-    cursor: not-allowed;
-}
-
-/* ##### Canvas Styles ##### */
-#matrixCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none; /* Allow clicks through the canvas */
-}
-
-/* ##### Sparkle Animation for Promoted Confessions ##### */
-@keyframes sparkle {
-    0% {
-        box-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6);
-    }
-    50% {
-        box-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 0.8);
-    }
-    100% {
-        box-shadow: 0 0 5px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6);
-    }
-}
-
-/* ##### Responsive Styles ##### */
-@media (max-width: 768px) {
-    /* ##### Apply Diagonal Gradient Background for Mobile ##### */
-    html, body {
-        background: linear-gradient(135deg, #800000, #000000); /* Darker gradient */
-    }
-    
-    /* Alternatively, for a diagonal gradient:
-    html, body {
-        background: linear-gradient(135deg, #FF0000, #800000, #000000);
-    }
-    */
-    
-    .container, .confession-feed-container {
-        padding: 1.5rem;
-    }
-    
-    .submission-header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .submission-header .subtitle {
-        font-size: 1rem;
-    }
-    
-    #messageInput {
-        height: 80px;
-    }
-    
-    .load-more-btn {
-        padding: 0.5rem 1rem;
-    }
-    
-    /* ##### Hide Matrix Canvas on Mobile ##### */
-    #matrixCanvas {
-        display: none;
-    }
+    color: #FFD700; /* Golden color */
 }
