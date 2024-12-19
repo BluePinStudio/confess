@@ -95,25 +95,23 @@ html, body {
     justify-content: center; /* Center align the submit button */
 }
 
-#submitBtn {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    color: #000;
-    background: linear-gradient(45deg, #FF0000, #000000);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.btn {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 24px; /* Padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Inline-block */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Margin */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
 
-#submitBtn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(255,0,0,0.5);
-}
-
-#submitBtn:active {
-    transform: scale(0.98);
+.btn:hover {
+    background-color: #45a049; /* Darker green on hover */
 }
 
 #feedback {
