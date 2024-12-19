@@ -72,7 +72,6 @@ loadMoreBtn.addEventListener('click', loadMoreConfessions);
 /* Handle JSONP Response */
 window.handleResponse = function(data) {
     submitBtn.disabled = false;
-    messageInput.disabled = false;
 
     if (data.status === "success") {
         feedback.style.color = '#00FFAA';
@@ -118,7 +117,6 @@ function submitMessage() {
     feedback.style.color = '#fff';
     feedback.textContent = CONFIG.submittingMessage;
     submitBtn.disabled = true;
-    messageInput.disabled = true;
 
     // Determine device type
     const device = getDeviceType();
@@ -136,13 +134,11 @@ function submitMessage() {
 function startCooldown() {
     isCoolingDown = true;
     submitBtn.disabled = true;
-    messageInput.disabled = true;
-    submitBtn.title = "Please wait before submitting another confession."; // Set tooltip
+    submitBtn.title = CONFIG.waitMessage; // Set tooltip
 
     setTimeout(() => {
         isCoolingDown = false;
         submitBtn.disabled = false;
-        messageInput.disabled = false;
         feedback.textContent = "";
         submitBtn.title = "Submit your confession"; // Reset tooltip
     }, CONFIG.cooldownTime);
