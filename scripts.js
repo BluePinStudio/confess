@@ -2,7 +2,7 @@
  *           CONFIGURATION
  *************************************/
 const CONFIG = {
-    endpointURL: "https://script.google.com/macros/s/AKfycbzAYhZmywxroP2VbSQlj090SkOwHJWPKYJPa5yjSZheqL76n4iIU10f1hb6Dohhs1SdOw/exec",
+    endpointURL: "https://script.google.com/macros/s/AKfycbyTk3bskjJI6QscqtWu3zScJxEwf1MLhIgZ9IjaVo0Wqx_V03PdP1oB7JTO-4fihIBrBA/exec",
     minChars: 10,
     maxChars: 280,
     cooldownTime: 10000, // 10 seconds
@@ -140,19 +140,11 @@ function submitMessage() {
     // Set tooltip to submitting
     submitBtn.title = CONFIG.submittingMessage;
 
-    // Make a POST request using fetch
-    fetch(CONFIG.endpointURL, {
-        method: 'POST', // Use POST method
-        headers: {
-            'Content-Type': 'application/json' // Specify JSON content
-        },
-        body: JSON.stringify({
-            text: userText,
-            device: device
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
+    // Generate a unique callback function name
+    const callbackName = 'handleResponse_' + Date.now();
+
+    // Define the callback function
+    window[callbackName] = function(data) {
         submitBtn.disabled = false;
         if (data.status === "success") {
             feedback.style.color = '#00FFAA';
@@ -166,13 +158,22 @@ function submitMessage() {
             feedback.style.color = '#FF0000';
             feedback.textContent = data.error || "Server error.";
         }
-    })
-    .catch(error => {
-        console.error('Error submitting confession:', error);
+        // Clean up: remove the script tag and callback function
+        document.body.removeChild(script);
+        delete window[callbackName];
+    }
+
+    // Create a script tag for JSONP
+    const script = document.createElement('script');
+    script.src = `${CONFIG.endpointURL}?callback=${callbackName}&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}`;
+    script.onerror = function() {
+        submitBtn.disabled = false;
         feedback.style.color = '#FF0000';
         feedback.textContent = "An error occurred while submitting your confession.";
-        submitBtn.disabled = false;
-    });
+        document.body.removeChild(script);
+        delete window[callbackName];
+    };
+    document.body.appendChild(script);
 }
 
 /* Start Cooldown */
