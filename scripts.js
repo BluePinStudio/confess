@@ -93,6 +93,7 @@ function submitMessage() {
     if (isCoolingDown) {
         feedback.style.color = '#FF0000';
         feedback.textContent = CONFIG.waitMessage;
+        submitBtn.title = CONFIG.waitMessage; // Set tooltip
         return;
     }
 
@@ -122,6 +123,9 @@ function submitMessage() {
     // Determine device type
     const device = getDeviceType();
 
+    // Set tooltip to submitting
+    submitBtn.title = CONFIG.submittingMessage;
+
     // Create a script tag for JSONP
     const script = document.createElement('script');
     script.src = `${CONFIG.endpointURL}?callback=handleResponse&text=${encodeURIComponent(userText)}&device=${encodeURIComponent(device)}`;
@@ -133,11 +137,14 @@ function startCooldown() {
     isCoolingDown = true;
     submitBtn.disabled = true;
     messageInput.disabled = true;
+    submitBtn.title = "Please wait before submitting another confession."; // Set tooltip
+
     setTimeout(() => {
         isCoolingDown = false;
         submitBtn.disabled = false;
         messageInput.disabled = false;
         feedback.textContent = "";
+        submitBtn.title = "Submit your confession"; // Reset tooltip
     }, CONFIG.cooldownTime);
 }
 
@@ -283,15 +290,30 @@ fetch(CONFIG.confessionsURL)
 
 // Matrix settings
 const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = Array(columns).fill(0);
+let columns = Math.floor(canvas.width / fontSize);
+let drops = [];
 
-// Start Matrix animation
-function startMatrix() {
-    setInterval(drawMatrix, 50);
+// Initialize drops with random y-positions
+for (let x = 0; x < columns; x++) {
+    drops[x] = Math.random() * canvas.height / fontSize;
 }
 
-// Draw Matrix frame
+// Adjust columns and drops on resize
+function adjustColumns() {
+    columns = Math.floor(canvas.width / fontSize);
+    drops = [];
+    for (let x = 0; x < columns; x++) {
+        drops[x] = Math.random() * canvas.height / fontSize;
+    }
+}
+window.addEventListener('resize', adjustColumns);
+
+/* Start Matrix animation */
+function startMatrix() {
+    setInterval(drawMatrix, 65); // Slowed down by 30% from 50ms to 65ms
+}
+
+/* Draw Matrix frame */
 function drawMatrix() {
     // Fade the background
     ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -302,7 +324,7 @@ function drawMatrix() {
     ctx.font = `${fontSize}px monospace`;
 
     // Draw words
-    for (let i = 0; i < drops.length; i++) {
+    for (let i = 0; i < columns; i++) {
         const word = words[Math.floor(Math.random() * words.length)];
         ctx.fillText(word, i * fontSize, drops[i] * fontSize);
 

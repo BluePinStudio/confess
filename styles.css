@@ -11,7 +11,9 @@ html, body {
     font-family: 'Poppins', sans-serif;
     background: #000; /* Black background for Matrix effect */
     color: #fff;
-    overflow: hidden; /* Hide scrollbars to keep Matrix effect clean */
+    /* Removed overflow: hidden to allow scrollbars */
+    overflow-y: auto;
+    position: relative;
 }
 
 /* ##### Title Bar Styles ##### */
@@ -80,6 +82,11 @@ html, body {
 
 #messageInput:focus {
     box-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Center align the submit button */
 }
 
 #submitBtn {
