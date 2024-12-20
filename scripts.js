@@ -258,12 +258,8 @@ function fetchConfessions() {
     fetch(CONFIG.confessionsURL)
         .then(response => response.json())
         .then(data => {
-            // Sort confessions by date descending
-            allConfessions = data.sort((a, b) => {
-                const dateA = parseDate(a.date);
-                const dateB = parseDate(b.date);
-                return dateB - dateA;
-            });
+            // Reverse the order directly
+            allConfessions = data.reverse();
             currentPage = 0;
             confessionFeed.innerHTML = '';
             loadMoreConfessions();
