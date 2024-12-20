@@ -12,9 +12,9 @@ const CONFIG = {
     waitMessage: "Please wait before submitting another confession.",
     submittingMessage: "Submitting...",
     linktreeLinks: [
-        { href: "https://twitter.com/yourprofile", icon: "logos/tw.png", alt: "Twitter" },
+        { href: "https://x.com/FessToronto", icon: "logos/tw.png", alt: "Twitter" },
         { href: "https://www.instagram.com/fesstoronto/", icon: "logos/ig.png", alt: "Instagram" },
-        { href: "https://facebook.com/yourprofile", icon: "logos/fb.png", alt: "Facebook" }
+        { href: "https://www.facebook.com/FessToronto/", icon: "logos/fb.png", alt: "Facebook" }
     ],
     confessionsURL: "confessions.json",
     confessionsPerPage: 5
