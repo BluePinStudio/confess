@@ -28,5 +28,20 @@
         "date": "20/12/2024",
         "text": "Pizza Pizza is the best Pizza in the city. Who else is open at 2am when pizza is the most crucial?!",
         "promoted": false
+    },
+    {
+        "date": "21/12/2024",
+        "text": "My condo building has a gym, but I’ve never actually worked out there. I just go down in my yoga pants, take a few selfies, and head back up. My partner is convinced I’m getting “super fit” and keeps talking about my “dedication.”",
+        "promoted": false
+    },
+    {
+        "date": "21/12/2024",
+        "text": "I was late to work because I grabbed a coffee at a trendy cafe on Queen Street. Told my boss I got stuck on the TTC when really I spent 15 minutes trying to get the perfect Instagram shot of my latte art.",
+        "promoted": false
+    },
+    {
+        "date": "21/12/2024",
+        "text": "When my mom visits from out of town, I bring her to St. Lawrence Market and act like I’m a big “foodie.” In reality, half the time I’m surviving on Uber Eats and frozen pizza, but she thinks I’m basically the next Jamie Oliver.",
+        "promoted": false
     }
 ]
